@@ -1,46 +1,87 @@
 package com.lab.lab9.controllers;
-import com.lab.lab9.dao.laptopDAO;
-import com.lab.lab9.models.Laptop;
-import com.lab.lab9.utils.GenerateId;
-import com.lab.lab9.utils.UploadFile;
+import com.lab.lab9.dao.accountDAO;
+
+import com.lab.lab9.models.Account;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("")
 public class AccountController {
-//    private laptopDAO laptopDAO;
-    // Trang Chu => Hien thi tat ca laptop
-    // GET [/]
-    @RequestMapping(value="", method = RequestMethod.GET)
-    public String showHome(ModelMap modelMap){
-//        try{
-//            laptopDAO = new laptopDAO();
-//            modelMap.addAttribute("laptops", laptopDAO.getLaptops());
-//        }catch(ClassNotFoundException | SQLException e){
-//            System.out.print(e);
-//            modelMap.addAttribute("laptops", new ArrayList<Laptop>());
+    private accountDAO accountDAO;
+    // GET [/login]
+    // Hiển thị giao diện trang login
+    // https://www.javainuse.com/spring/springboot_session
+    @RequestMapping(value="/", method = RequestMethod.GET)
+    public String showHomePage(ModelMap modelMap,
+                               @CookieValue(value = "username",
+                                       defaultValue = "") String usernameCookie,
+                               HttpServletRequest request){
+//        System.out.print(usernameCookie);
+//        if(usernameCookie.equals("")){
+////            modelMap.addAttribute("error", "Please Login!");
+////            modelMap.addAttribute("class_error", "p-3");
+//            return "redirect:/login";
+//        }
+        System.out.print("Session Data => ");
+//        List<String> messages = (List<String>) request.getSession().getAttribute("username_session");
+//        for(String model : messages) {
+//            System.out.println(model);
 //        }
         return  "home";
     }
+
+    // GET [/login]
+    // Hiển thị giao diện trang login
     @RequestMapping(value="/login", method = RequestMethod.GET)
     public String showLoginPage(ModelMap modelMap){
-//        try{
-//            laptopDAO = new laptopDAO();
-//            modelMap.addAttribute("laptops", laptopDAO.getLaptops());
-//        }catch(ClassNotFoundException | SQLException e){
-//            System.out.print(e);
-//            modelMap.addAttribute("laptops", new ArrayList<Laptop>());
-//        }
+//        modelMap.addAttribute("error", "Khong vo loi");
         return  "login";
+    }
+
+    // POST [/login]
+    // Xử lý user đăng nhập
+    @RequestMapping(value="/login", method = RequestMethod.POST)
+    public String addNewLaptop(ModelMap modelMap,
+                               @RequestParam(value = "username") String username,
+                               @RequestParam(value = "password") String password,
+                               HttpServletResponse response,
+                               HttpSession session)
+            throws SQLException, ClassNotFoundException, IOException {
+        if(username.equals("") || password.equals("")){
+            modelMap.addAttribute("error", "Missing data");
+            modelMap.addAttribute("class_error", "p-3");
+            return "login";
+        }
+        accountDAO = new accountDAO();
+        // kiểm tra thôg tin có hợp lệ hay không?
+        boolean isValid = accountDAO.checkUserValid(username, password);
+
+        if(!isValid){
+            modelMap.addAttribute("error", "Invalid Username or Password");
+            modelMap.addAttribute("class_error", "p-3");
+
+            return "login";
+        }
+        Account account = accountDAO.getUserData(username, password);
+        System.out.print(account.toString());
+        // create a cookie
+        Cookie cookie = new Cookie("username", account.getUsername());
+        response.addCookie(cookie);
+        session.setAttribute("username_session", account.getUsername());
+        return "redirect:/";
     }
 //    // POST [/]
 //    @RequestMapping(value="", method = RequestMethod.POST)

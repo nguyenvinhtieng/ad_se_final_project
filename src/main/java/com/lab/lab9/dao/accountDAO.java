@@ -1,23 +1,51 @@
 package com.lab.lab9.dao;
 
-import com.lab.lab9.models.Laptop;
+import com.lab.lab9.credentials.Credentials;
+import com.lab.lab9.models.Account;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public class laptopDAO {
+public class accountDAO {
     private Connection conn;
     private Statement stm;
     private ResultSet resultSet;
-    public laptopDAO() throws ClassNotFoundException, SQLException {
+    private Credentials credentials = new Credentials();
+    public accountDAO() throws ClassNotFoundException, SQLException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        String dbName = "SCHOOL";
-        String userName = "vinhtieng";
-        String passWord = "vinhtieng";
-        String url = "jdbc:sqlserver://localhost;databaseName=" + dbName;
+        String userName = credentials.getUserName();
+        String passWord = credentials.getPassWord();
+        String url = credentials.getUrl();
         this.conn = DriverManager.getConnection(url, userName, passWord);
     }
+
+    public boolean checkUserValid(String username, String password) throws  SQLException{
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM TAIKHOAN WHERE TAIKHOAN = '"+username+"' and MATKHAU='" + password + "'";
+        resultSet = stm.executeQuery(sql);
+        // Sửa lại
+        int length = 0;
+        while(resultSet.next()) {
+            length ++;
+        }
+        //
+        if(length == 1 ){
+            return true;
+        }
+        return false;
+    }
+    public Account getUserData(String username, String password) throws  SQLException{
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM TAIKHOAN WHERE TAIKHOAN = '"+username+"' and MATKHAU='" + password + "'";
+        resultSet = stm.executeQuery(sql);
+        Account account = new Account();
+        while(resultSet.next()) {
+            account.setUsername(resultSet.getString(1));
+            account.setPassword(resultSet.getString(2));
+            account.setRole(resultSet.getString(3));
+        }
+        return account;
+    }
+
 //    public List<Laptop> getLaptops() throws SQLException {
 //        List<Laptop> laptops = new ArrayList<>();
 //        stm = conn.createStatement();
