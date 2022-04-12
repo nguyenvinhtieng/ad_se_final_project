@@ -1,46 +1,27 @@
 package com.lab.lab9.controllers;
-import com.lab.lab9.dao.accountDAO;
+import com.lab.lab9.dao.TaiKhoanDAO;
 
-import com.lab.lab9.models.Account;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 @Controller
 @RequestMapping("")
-public class AccountController {
-    private accountDAO accountDAO;
-    // GET [/login]
-    // Hiển thị giao diện trang login
-    // https://www.javainuse.com/spring/springboot_session
+public class MainController {
+    private TaiKhoanDAO accountDAO;
+
+    // GET [/]
     @RequestMapping(value="/", method = RequestMethod.GET)
-    public String showHomePage(ModelMap modelMap,
-                               @CookieValue(value = "username",
-                                       defaultValue = "") String usernameCookie,
-                               HttpServletRequest request){
-//        System.out.print(usernameCookie);
-//        if(usernameCookie.equals("")){
-////            modelMap.addAttribute("error", "Please Login!");
-////            modelMap.addAttribute("class_error", "p-3");
-//            return "redirect:/login";
-//        }
-        System.out.print("Session Data => ");
-//        List<String> messages = (List<String>) request.getSession().getAttribute("username_session");
-//        for(String model : messages) {
-//            System.out.println(model);
-//        }
-        return  "home";
+    public String showHomePage(ModelMap modelMap){
+        return  "redirect:/login";
     }
 
     // GET [/login]
@@ -60,27 +41,37 @@ public class AccountController {
                                HttpServletResponse response,
                                HttpSession session)
             throws SQLException, ClassNotFoundException, IOException {
+        // Validation cơ bản
         if(username.equals("") || password.equals("")){
             modelMap.addAttribute("error", "Missing data");
             modelMap.addAttribute("class_error", "p-3");
             return "login";
         }
-        accountDAO = new accountDAO();
-        // kiểm tra thôg tin có hợp lệ hay không?
-        boolean isValid = accountDAO.checkUserValid(username, password);
 
-        if(!isValid){
+        accountDAO = new TaiKhoanDAO();
+
+        // Lấy role của user
+        String roleUser = accountDAO.getRoleUser(username, password);
+        // Role = "" => Tài khoản đăng nhập không đúng
+        if(roleUser.equals("")){
             modelMap.addAttribute("error", "Invalid Username or Password");
             modelMap.addAttribute("class_error", "p-3");
-
             return "login";
         }
-        Account account = accountDAO.getUserData(username, password);
-        System.out.print(account.toString());
-        // create a cookie
-        Cookie cookie = new Cookie("username", account.getUsername());
-        response.addCookie(cookie);
-        session.setAttribute("username_session", account.getUsername());
+
+        // Tạo cookie => Có thể thêm bước mã hóa cookie sau này
+        Cookie cookie_username = new Cookie("username", username);
+        Cookie cookie_role = new Cookie("role", roleUser);
+        response.addCookie(cookie_username);
+        response.addCookie(cookie_role);
+
+        // Check role để điều hướng người dùng
+        if(roleUser.equals("ADMIN")){
+            return "redirect:/admin/home";
+        }
+        if(roleUser.equals("STUDENT")){
+            return "redirect:/student/home";
+        }
         return "redirect:/";
     }
 //    // POST [/]

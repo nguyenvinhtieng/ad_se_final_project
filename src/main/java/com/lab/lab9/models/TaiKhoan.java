@@ -1,17 +1,17 @@
 package com.lab.lab9.models;
 
-public class Account {
+public class TaiKhoan {
     private String username;
     private String password;
     private String role;
 
-    public Account() {
+    public TaiKhoan() {
         this.username = "";
         this.password = "";
         this.role = "";
     }
 
-    public Account(String username, String password, String role) {
+    public TaiKhoan(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;

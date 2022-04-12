@@ -1,16 +1,16 @@
 package com.lab.lab9.dao;
 
 import com.lab.lab9.credentials.Credentials;
-import com.lab.lab9.models.Account;
+import com.lab.lab9.models.TaiKhoan;
 
 import java.sql.*;
 
-public class accountDAO {
+public class TaiKhoanDAO {
     private Connection conn;
     private Statement stm;
     private ResultSet resultSet;
     private Credentials credentials = new Credentials();
-    public accountDAO() throws ClassNotFoundException, SQLException {
+    public TaiKhoanDAO() throws ClassNotFoundException, SQLException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         String userName = credentials.getUserName();
         String passWord = credentials.getPassWord();
@@ -33,17 +33,27 @@ public class accountDAO {
         }
         return false;
     }
-    public Account getUserData(String username, String password) throws  SQLException{
+    public TaiKhoan getUserData(String username, String password) throws  SQLException{
         stm = conn.createStatement();
         String sql = "SELECT * FROM TAIKHOAN WHERE TAIKHOAN = '"+username+"' and MATKHAU='" + password + "'";
         resultSet = stm.executeQuery(sql);
-        Account account = new Account();
+        TaiKhoan account = new TaiKhoan();
         while(resultSet.next()) {
             account.setUsername(resultSet.getString(1));
             account.setPassword(resultSet.getString(2));
             account.setRole(resultSet.getString(3));
         }
         return account;
+    }
+    public String getRoleUser(String username, String password) throws  SQLException{
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM TAIKHOAN WHERE TAIKHOAN = '"+username+"' and MATKHAU='" + password + "'";
+        resultSet = stm.executeQuery(sql);
+        String role = "";
+        while(resultSet.next()) {
+            role = resultSet.getString(3);
+        }
+        return role;
     }
 
 //    public List<Laptop> getLaptops() throws SQLException {
