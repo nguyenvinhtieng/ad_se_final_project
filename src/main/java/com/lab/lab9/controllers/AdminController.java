@@ -23,6 +23,7 @@ import java.util.List;
 public class AdminController {
     private ThongBaoDAO thongBaoDAO;
     private LoaiThongBaoDAO loaiThongBaoDAO;
+    private TaiKhoanDAO taiKhoanDAO;
     // GET [/admin/home] => Hiển thị trang chủ admin
     @RequestMapping(value="/home", method = RequestMethod.GET)
     public String showHomePage(ModelMap modelMap,
@@ -49,6 +50,7 @@ public class AdminController {
         modelMap.addAttribute("types", loaiThongBaoDAO.getAllType());
         return  "admin/notify";
     }
+
     // POST [/admin/notify] => Tạo thông báo
     @RequestMapping(value="/notify", method = RequestMethod.POST)
     public String createNotify(ModelMap modelMap,
@@ -67,4 +69,40 @@ public class AdminController {
         thongBaoDAO.createNotify(tieuDe,noiDung , idLoaiThongBao, ngayTao);
         return  "redirect:/admin/notify";
     }
+
+    // GET [/admin/delete?id=id] => Hiển thị trang chủ admin
+    @RequestMapping(value="/delete", method = RequestMethod.GET)
+    public String deleteNoti(ModelMap modelMap,
+                             @RequestParam(value = "id") String id
+    )  throws SQLException, ClassNotFoundException{
+        thongBaoDAO = new ThongBaoDAO();
+        thongBaoDAO.deleteNotify(id);
+        return  "redirect:/admin/notify";
+    }
+
+    // GET [/admin/account] => Hiển thị trang account
+    @RequestMapping(value="/account", method = RequestMethod.GET)
+    public String showAccountPage(ModelMap modelMap,
+                                 @CookieValue(value = "username", defaultValue = "") String usernameCookie
+    )  throws SQLException, ClassNotFoundException{
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        taiKhoanDAO = new TaiKhoanDAO();
+        modelMap.addAttribute("accounts", taiKhoanDAO.getAllAccount());
+        return  "admin/account";
+    }
+
+    // GET [/admin/semester] => Hiển thị trang semester
+    @RequestMapping(value="/semester", method = RequestMethod.GET)
+    public String showSemesterPage(ModelMap modelMap,
+                                  @CookieValue(value = "username", defaultValue = "") String usernameCookie
+    )  throws SQLException, ClassNotFoundException{
+//        if(!usernameCookie.equals("ADMIN")){
+//            return "redirect:/login";
+//        }
+
+        return  "admin/semester";
+    }
+
 }

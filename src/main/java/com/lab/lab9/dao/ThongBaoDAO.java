@@ -52,4 +52,14 @@ public class ThongBaoDAO {
         ps.execute();
         ps.close();
     }
+
+    public void deleteNotify(String idThongBao) throws SQLException{
+        int id = Integer.parseInt(idThongBao);
+        String sql = "DELETE FROM THONGBAO WHERE IDTHONGBAO = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, id);
+        ps.execute();
+        ps.close();
+    }
+
 }

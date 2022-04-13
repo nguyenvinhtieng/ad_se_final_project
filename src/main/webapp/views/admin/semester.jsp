@@ -54,19 +54,23 @@
                                             <tr>
                                                 <th
                                                     class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                    Id
+                                                    Semester
                                                 </th>
                                                 <th
                                                     class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                    Title
+                                                    School year
                                                 </th>
                                                 <th
                                                     class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                    Type
+                                                    Start day
                                                 </th>
                                                 <th
                                                     class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                    Created at
+                                                    End day
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Status
                                                 </th>
                                                 <th
                                                     class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -75,7 +79,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach items="${notifies}" var="thongbao">
                                                 <tr>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                         <div class="flex items-center">
@@ -113,7 +116,6 @@
                                                         </a>
                                                     </td>
                                                 </tr>
-                                            </c:forEach>
 
                                         </tbody>
                                     </table>
@@ -139,46 +141,11 @@
                         </div>
                     </div>
                 </main>
-                <jsp:include page="../partials/modals/create_noti.jsp" />
-                <jsp:include page="../partials/modals/delete_noti.jsp" />
                 <jsp:include page="../partials/footer.jsp" />
             </div>
         </div>
     </div>
-    <script>
-        const modalCreate = document.querySelector('.main-modal-create');
-        const modalDelete = document.querySelector('.main-modal-delete');
 
-        const closeButtonModalCreate = document.querySelectorAll('.modal-close-create');
-        const closeButtonModalDelete = document.querySelectorAll('.modal-close-delete');
-
-        const deletes = document.querySelectorAll(".btn-delete")
-        const btnAddNoti = document.getElementById('btn-add-noti')
-
-        const btnDeleteNoti = document.querySelector('.btn-delete-noti')
-
-        initModal([
-            { modal: modalCreate, closeButtons: closeButtonModalCreate },
-            { modal: modalDelete, closeButtons: closeButtonModalDelete },
-        ])
-
-        btnAddNoti.addEventListener("click", (e) => {
-            openModal(modalCreate)
-        })
-
-        deletes.forEach(item => {
-            item.addEventListener("click", e => {
-                openModal(modalDelete)
-                setDataToDeleteModal(item)
-            })
-        })
-
-        function setDataToDeleteModal(item) {
-            console.log(item);
-            const id = item.getAttribute("data-id")
-            btnDeleteNoti.href = "/admin/delete?id=" + id
-        }
-    </script>
 </body>
 
 </html>

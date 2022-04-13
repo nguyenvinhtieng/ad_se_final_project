@@ -13,7 +13,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="./account.html"
+                        <a href="/admin/account"
                             class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                             <ion-icon name="people"></ion-icon>
                             <span class="ml-3">Account</span>
@@ -24,6 +24,13 @@
                             class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                             <ion-icon name="notifications"></ion-icon>
                             <span class="ml-3">Notify</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/semester"
+                            class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                            <ion-icon name="calendar-clear"></ion-icon>
+                            <span class="ml-3">Semester</span>
                         </a>
                     </li>
                     <li>

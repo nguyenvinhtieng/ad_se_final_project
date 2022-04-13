@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <form action="" method="POST">
-        <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
+        <div class="main-modal-create fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
             style="background: rgba(0,0,0,.7);">
             <div
                 class="border border-teal-500 shadow-lg modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
@@ -8,7 +8,7 @@
                     <!--Title-->
                     <div class="flex justify-between items-center pb-3">
                         <p class="text-2xl font-bold">Add new notification</p>
-                        <div class="modal-close cursor-pointer z-50">
+                        <div class="modal-close-create cursor-pointer z-50">
                             <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18"
                                 height="18" viewBox="0 0 18 18">
                                 <path
@@ -53,7 +53,7 @@
                     <!--Footer-->
                     <div class="flex justify-end pt-2">
                         <button
-                            class="focus:outline-none modal-close px-4 bg-gray-400 p-2 rounded-md text-black hover:bg-gray-300">Cancel</button>
+                            class="focus:outline-none modal-close-create px-4 bg-gray-400 p-2 rounded-md text-black hover:bg-gray-300">Cancel</button>
                         <button
                             class="focus:outline-none px-4 bg-blue-500 p-2 ml-3 rounded-md text-white hover:bg-blue-400">Add</button>
                     </div>

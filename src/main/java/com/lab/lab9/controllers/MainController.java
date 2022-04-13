@@ -1,6 +1,7 @@
 package com.lab.lab9.controllers;
 import com.lab.lab9.dao.TaiKhoanDAO;
 
+import com.lab.lab9.models.TaiKhoan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,26 +51,33 @@ public class MainController {
 
         accountDAO = new TaiKhoanDAO();
 
-        // Lấy role của user
-        String roleUser = accountDAO.getRoleUser(username, password);
+        // Lấy thông tin của user
+        TaiKhoan taikhoan = accountDAO.getUserData(username, password);
         // Role = "" => Tài khoản đăng nhập không đúng
-        if(roleUser.equals("")){
-            modelMap.addAttribute("error", "Invalid Username or Password");
+        if(taikhoan.getRole().equals("")){
+            modelMap.addAttribute("error", "Invalid Username or Password!");
+            modelMap.addAttribute("class_error", "p-3");
+            return "login";
+        }
+        // STATUS = "INACTIVE" => Tài khoản INACTIVE
+        if(taikhoan.getStatus().equals("INACTIVE")){
+            modelMap.addAttribute("error", "Account Inactive!");
             modelMap.addAttribute("class_error", "p-3");
             return "login";
         }
 
+
         // Tạo cookie => Có thể thêm bước mã hóa cookie sau này
         Cookie cookie_username = new Cookie("username", username);
-        Cookie cookie_role = new Cookie("role", roleUser);
+        Cookie cookie_role = new Cookie("role", taikhoan.getRole());
         response.addCookie(cookie_username);
         response.addCookie(cookie_role);
 
         // Check role để điều hướng người dùng
-        if(roleUser.equals("ADMIN")){
+        if(taikhoan.getRole().equals("ADMIN")){
             return "redirect:/admin/home";
         }
-        if(roleUser.equals("STUDENT")){
+        if(taikhoan.getRole().equals("STUDENT")){
             return "redirect:/student/home";
         }
         return "redirect:/";

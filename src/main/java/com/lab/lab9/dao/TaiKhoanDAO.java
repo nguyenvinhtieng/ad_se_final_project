@@ -4,6 +4,8 @@ import com.lab.lab9.credentials.Credentials;
 import com.lab.lab9.models.TaiKhoan;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TaiKhoanDAO {
     private Connection conn;
@@ -18,44 +20,39 @@ public class TaiKhoanDAO {
         this.conn = DriverManager.getConnection(url, userName, passWord);
     }
 
-    public boolean checkUserValid(String username, String password) throws  SQLException{
-        stm = conn.createStatement();
-        String sql = "SELECT * FROM TAIKHOAN WHERE TAIKHOAN = '"+username+"' and MATKHAU='" + password + "'";
-        resultSet = stm.executeQuery(sql);
-        // Sửa lại
-        int length = 0;
-        while(resultSet.next()) {
-            length ++;
-        }
-        //
-        if(length == 1 ){
-            return true;
-        }
-        return false;
-    }
     public TaiKhoan getUserData(String username, String password) throws  SQLException{
-        stm = conn.createStatement();
-        String sql = "SELECT * FROM TAIKHOAN WHERE TAIKHOAN = '"+username+"' and MATKHAU='" + password + "'";
-        resultSet = stm.executeQuery(sql);
-        TaiKhoan account = new TaiKhoan();
-        while(resultSet.next()) {
-            account.setUsername(resultSet.getString(1));
-            account.setPassword(resultSet.getString(2));
-            account.setRole(resultSet.getString(3));
-        }
-        return account;
-    }
-    public String getRoleUser(String username, String password) throws  SQLException{
+        TaiKhoan taikhoan = new TaiKhoan();
         stm = conn.createStatement();
         String sql = "SELECT * FROM TAIKHOAN WHERE TAIKHOAN = '"+username+"' and MATKHAU='" + password + "'";
         resultSet = stm.executeQuery(sql);
         String role = "";
         while(resultSet.next()) {
-            role = resultSet.getString(3);
+            taikhoan.setUsername(resultSet.getString("TAIKHOAN"));
+            taikhoan.setPassword(resultSet.getString("MATKHAU"));
+            taikhoan.setRole(resultSet.getString("ROLE"));
+            taikhoan.setStatus(resultSet.getString("TRANGTHAI"));
         }
-        return role;
+        return taikhoan;
     }
+    public List<TaiKhoan> getAllAccount() throws SQLException {
+        List<TaiKhoan> accounts = new ArrayList<>();
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM TAIKHOAN WHERE ROLE <> 'ADMIN'";
+        resultSet = stm.executeQuery(sql);
+        while(resultSet.next()) {
+            TaiKhoan tk = new TaiKhoan(
+                resultSet.getString("TAIKHOAN"),
+                resultSet.getString("MATKHAU"),
+                resultSet.getString("ROLE"),
+                resultSet.getString("TRANGTHAI")
+            );
+            accounts.add(tk);
+        }
 
+        resultSet.close();
+        stm.close();
+        return accounts;
+    }
 //    public List<Laptop> getLaptops() throws SQLException {
 //        List<Laptop> laptops = new ArrayList<>();
 //        stm = conn.createStatement();

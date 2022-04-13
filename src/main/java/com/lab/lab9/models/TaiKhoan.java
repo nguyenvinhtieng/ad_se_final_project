@@ -4,17 +4,28 @@ public class TaiKhoan {
     private String username;
     private String password;
     private String role;
+    private String status;
 
     public TaiKhoan() {
         this.username = "";
         this.password = "";
         this.role = "";
+        this.status = "";
     }
 
-    public TaiKhoan(String username, String password, String role) {
+    public TaiKhoan(String username, String password, String role, String status) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getUsername() {
