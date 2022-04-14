@@ -68,25 +68,26 @@
                                                             </p>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <span
-                                                                class="px-2 py-1 font-semibold leading-tight rounded-sm
+                                                            <span class="px-2 py-1 font-semibold leading-tight rounded-sm
                                                                 <c:choose>
-                                                                    <c:when test="${account.getStatus()=='ACTIVE'}">
-                                                                       text-blue-700 bg-blue-100
-                                                                        <br />
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        text-red-700 bg-red-100
-                                                                        <br />
-                                                                    </c:otherwise>
+                                                                    <c:when test=" ${account.getStatus()=='ACTIVE' }">
+                                                                text-blue-700 bg-blue-100
+                                                                <br />
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    text-red-700 bg-red-100
+                                                                    <br />
+                                                                </c:otherwise>
                                                                 </c:choose>
                                                                 ">
-                                                                ${account.getStatus()} </span>
+                                                                ${account.getStatus()}
+                                                            </span>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <a href="#" class="text-gray-400 hover:text-gray-100 mx-2">
+                                                            <div data-username="${account.getUsername()}"
+                                                                class="reset cursor-pointer text-gray-400 hover:text-gray-100 mx-2">
                                                                 <i class="material-icons-outlined text-base">history</i>
-                                                            </a>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -114,6 +115,35 @@
                             </div>
                         </div>
                     </main>
+                    <jsp:include page="../partials/footer.jsp" />
+                    <jsp:include page="../partials/modals/confirm_reset_password.jsp" />
                 </div>
             </div>
         </div>
+        <script>
+            const modalReset = document.querySelector(".main-modal-reset")
+            const closeButton = document.querySelectorAll(".modal-close-reset")
+
+            const btnReset = document.querySelector('.btn-reset')
+            const resets = document.querySelectorAll(".reset")
+
+            resets.forEach(item => {
+                item.addEventListener("click", (e) => {
+                    openModal(modalReset)
+                    setContentToResetModal(item)
+                })
+            })
+            function setContentToResetModal(item) {
+                const username = item.getAttribute("data-username")
+                btnReset.href = "/admin/account/reset?username=" + username
+            }
+
+            initModal([{
+                modal: modalReset,
+                closeButtons: closeButton
+            }]);
+
+        </script>
+    </body>
+
+    </html>

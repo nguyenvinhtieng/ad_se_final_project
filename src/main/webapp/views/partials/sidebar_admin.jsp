@@ -7,7 +7,7 @@
                 <ul class="space-y-2 pb-2">
                     <li>
                         <a href="/admin/home"
-                            class="text-base text-blue-600 bg-blue-100 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                            class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                             <ion-icon name="home"></ion-icon>
                             <span class="ml-3">Home</span>
                         </a>
@@ -31,6 +31,13 @@
                             class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                             <ion-icon name="calendar-clear"></ion-icon>
                             <span class="ml-3">Semester</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/school-year"
+                            class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                            <ion-icon name="planet"></ion-icon>
+                            <span class="ml-3">School Year</span>
                         </a>
                     </li>
                     <li>

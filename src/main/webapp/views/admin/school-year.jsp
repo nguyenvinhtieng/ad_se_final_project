@@ -6,7 +6,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Home Admin</title>
+        <title>School year</title>
         <jsp:include page="../partials/file_and_lib.jsp" />
     </head>
 
@@ -23,25 +23,13 @@
                         <div class="bg-white p-8 rounded-md w-full">
                             <div class=" flex items-center justify-between pb-2">
                                 <div>
-                                    <h2 class="text-gray-600 font-semibold">Notification</h2>
+                                    <h2 class="text-gray-600 font-semibold">School year</h2>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <!-- <div class="flex bg-gray-50 items-center p-2 rounded-md">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400"
-                                        viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <input class="bg-gray-50 outline-none ml-1 block " type="text" name="" id=""
-                                        placeholder="search...">
-                                </div>  -->
                                     <div class="lg:ml-40 ml-10 space-x-8">
-                                        <button id="btn-add-noti"
+                                        <button id="btn-add-school-year"
                                             class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">New
                                             +</button>
-                                        <!-- <button
-                                                            class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">Create</button> -->
                                     </div>
                                 </div>
                             </div>
@@ -53,19 +41,23 @@
                                                 <tr>
                                                     <th
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                        Id
+                                                        ID
                                                     </th>
                                                     <th
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                        Title
+                                                        Name
                                                     </th>
                                                     <th
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                        Type
+                                                        Start day
                                                     </th>
                                                     <th
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                        Created at
+                                                        End day
+                                                    </th>
+                                                    <th
+                                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                        Status
                                                     </th>
                                                     <th
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -74,49 +66,66 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <c:forEach items="${notifies}" var="thongbao">
+                                                <c:forEach items="${namhoc}" var="nh">
                                                     <tr>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                             <div class="flex items-center">
                                                                 <div class="ml-3">
                                                                     <p class="text-gray-900 whitespace-no-wrap">
-                                                                        ${thongbao.getIdThongBao()}
+                                                                        ${nh.getIdNamHoc()}
                                                                     </p>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                             <p class="text-gray-900 whitespace-no-wrap">
-                                                                ${thongbao.getTieuDe()}
+                                                                ${nh.getTenNamHoc()}
                                                             </p>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                             <p class="text-gray-900 whitespace-no-wrap">
-                                                                ${thongbao.getTenLoaiThongBao()}
+                                                                ${nh.getNgayBatDau()}
                                                             </p>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                             <p class="text-gray-900 whitespace-no-wrap">
-                                                                ${thongbao.getNgayDang()}
+                                                                ${nh.getNgayKetThuc()}
                                                             </p>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <a href="#" class="text-gray-400 hover:text-gray-100  mr-2">
-                                                                <i
-                                                                    class="material-icons-outlined text-base">visibility</i>
-                                                            </a>
-                                                            <a href="#" class="text-gray-400 hover:text-gray-100 mx-2">
+                                                            <span class="px-2 py-1 font-semibold leading-tight rounded-sm
+                                                                <c:choose>
+                                                                    <c:when 
+                                                                    test="${nh.getTrangThai()=='ACTIVE' }">
+                                                                text-blue-700 bg-blue-100
+                                                                <br />
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    text-red-700 bg-red-100
+                                                                    <br />
+                                                                </c:otherwise>
+                                                                </c:choose>
+                                                                ">
+                                                                ${nh.getTrangThai()}
+                                                            </span>
+                                                        </td>
+                                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                            <div data-id="${nh.getIdNamHoc()}"
+                                                                data-name="${nh.getTenNamHoc()}"
+                                                                data-startday="${nh.getNgayBatDau()}"
+                                                                data-endday="${nh.getNgayKetThuc()}"
+                                                                data-status="${nh.getTrangThai()}"
+                                                                class="edit inline-block  cursor-pointer text-gray-400 hover:text-gray-100 mx-2">
                                                                 <i class="material-icons-outlined text-base">edit</i>
-                                                            </a>
-                                                            <p data-id="${thongbao.getIdThongBao()}"
-                                                                class="inline-block cursor-pointer btn-delete text-gray-400 hover:text-gray-100 ml-2">
+                                                            </div>
+                                                            <div data-id="${nh.getIdNamHoc()}"
+                                                                class="delete inline-block cursor-pointer text-gray-400 hover:text-gray-100 ml-2">
                                                                 <i
                                                                     class="material-icons-round text-base">delete_outline</i>
-                                                                </a>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
-
                                             </tbody>
                                         </table>
                                         <div
@@ -141,45 +150,74 @@
                             </div>
                         </div>
                     </main>
-                    <jsp:include page="../partials/modals/create_noti.jsp" />
-                    <jsp:include page="../partials/modals/delete_noti.jsp" />
                     <jsp:include page="../partials/footer.jsp" />
+                    <jsp:include page="../partials/modals/create_school_year.jsp" />
+                    <jsp:include page="../partials/modals/delete_school_year.jsp" />
+                    <jsp:include page="../partials/modals/edit_school_year.jsp" />
                 </div>
             </div>
         </div>
         <script>
-            const modalCreate = document.querySelector('.main-modal-create');
-            const modalDelete = document.querySelector('.main-modal-delete');
+            const btnCreate = document.getElementById("btn-add-school-year")
 
-            const closeButtonModalCreate = document.querySelectorAll('.modal-close-create');
-            const closeButtonModalDelete = document.querySelectorAll('.modal-close-delete');
+            const modalCreate = document.querySelector(".main-modal-create")
+            const closeButtonCreate = document.querySelectorAll(".modal-close-create")
 
-            const deletes = document.querySelectorAll(".btn-delete")
-            const btnAddNoti = document.getElementById('btn-add-noti')
+            const modalDelete = document.querySelector(".main-modal-delete")
+            const closeButtonDelete = document.querySelectorAll(".modal-close-delete")
 
-            const btnDeleteNoti = document.querySelector('.btn-delete-noti')
+            const modalEdit = document.querySelector(".main-modal-edit")
+            const closeButtonEdit = document.querySelectorAll(".modal-close-edit")
 
-            initModal([
-                { modal: modalCreate, closeButtons: closeButtonModalCreate },
-                { modal: modalDelete, closeButtons: closeButtonModalDelete },
-            ])
+            const deletes = document.querySelectorAll(".delete")
+            const edits = document.querySelectorAll(".edit")
 
-            btnAddNoti.addEventListener("click", (e) => {
-                openModal(modalCreate)
-            })
+            const btnDeleteSchoolYear = document.querySelector('.btn-delete-school-year')
+
+            const idEdit = document.querySelector('.id-edit')
+            const nameEdit = document.querySelector('.name-edit')
+            const startdayEdit = document.querySelector('.startday-edit')
+            const enddayEdit = document.querySelector('.endday-edit')
+            const statusEdit = document.querySelector('.status-edit')
 
             deletes.forEach(item => {
                 item.addEventListener("click", e => {
-                    openModal(modalDelete)
-                    setDataToDeleteModal(item)
+                    openModal(modalDelete);
+                    setContentDeleteModal(item)
                 })
             })
-
-            function setDataToDeleteModal(item) {
-                console.log(item);
+            edits.forEach(item => {
+                item.addEventListener("click", (e) => {
+                    openModal(modalEdit)
+                    setContentEditModal(item)
+                })
+            })
+            function setContentDeleteModal(item) {
                 const id = item.getAttribute("data-id")
-                btnDeleteNoti.href = "/admin/notify/delete?id=" + id
+                btnDeleteSchoolYear.href = "/admin/school-year/delete?id=" + id
+                console.log(item);
             }
+            function setContentEditModal(item) {
+                idEdit.value = item.getAttribute("data-id")
+                nameEdit.value = item.getAttribute("data-name")
+                startdayEdit.value = item.getAttribute("data-startday")
+                enddayEdit.value = item.getAttribute("data-endday")
+                statusEdit.innerHTML = item.getAttribute("data-status")
+                statusEdit.value = item.getAttribute("data-status")
+            }
+            btnCreate.addEventListener("click", (e) => {
+                openModal(modalCreate)
+            })
+            const initValues = [
+                { modal: modalCreate, closeButtons: closeButtonCreate },
+                {
+                    modal: modalDelete,
+                    closeButtons: closeButtonDelete
+                },
+                { modal: modalEdit, closeButtons: closeButtonEdit }
+            ]
+            initModal(initValues);
+
         </script>
     </body>
 

@@ -53,6 +53,15 @@ public class TaiKhoanDAO {
         stm.close();
         return accounts;
     }
+
+    public void resetPassword(String username, String password) throws  SQLException {
+        String sql = "UPDATE TAIKHOAN SET MATKHAU = ? WHERE TAIKHOAN = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, password);
+        ps.setString(2, username);
+        ps.executeUpdate();
+        ps.close();
+    }
 //    public List<Laptop> getLaptops() throws SQLException {
 //        List<Laptop> laptops = new ArrayList<>();
 //        stm = conn.createStatement();
