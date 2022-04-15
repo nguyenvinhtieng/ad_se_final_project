@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <div class="lg:ml-40 ml-10 space-x-8">
-                                        <button id="btn-add-noti"
+                                        <button id="btn-add-sem"
                                             class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">New
                                             +</button>
                                     </div>
@@ -135,15 +135,18 @@
                                                             </span>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <a href="#" class="text-gray-400 hover:text-gray-100  mr-2">
-                                                                <i
-                                                                    class="material-icons-outlined text-base">visibility</i>
-                                                            </a>
-                                                            <a href="#" class="text-gray-400 hover:text-gray-100 mx-2">
+                                                            <p data-id=" ${hk.getIdHocKy()}"
+                                                                data-name="${hk.getTenHocKy()}"
+                                                                data-startday="${hk.getNgayBatDau()}"
+                                                                data-endday="${hk.getNgayKetThuc()}"
+                                                                data-status="${hk.getTrangThai()}"
+                                                                data-idnamhoc="${hk.getIdNamHoc()}"
+                                                                data-tennamhoc="${hk.getTenNamHoc()}"
+                                                                class="edit cursor-pointer inline-block text-gray-400 hover:text-gray-100 mx-2">
                                                                 <i class="material-icons-outlined text-base">edit</i>
-                                                            </a>
-                                                            <p data-id="${thongbao.getIdThongBao()}"
-                                                                class="inline-block cursor-pointer btn-delete text-gray-400 hover:text-gray-100 ml-2">
+                                                            </p>
+                                                            <p data-id=" ${hk.getIdHocKy()}"
+                                                                class="inline-block cursor-pointer delete text-gray-400 hover:text-gray-100 ml-2">
                                                                 <i
                                                                     class="material-icons-round text-base">delete_outline</i>
                                                                 </a>
@@ -175,10 +178,68 @@
                         </div>
                     </main>
                     <jsp:include page="../partials/footer.jsp" />
+                    <jsp:include page="../partials/modals/create_semester.jsp" />
+                    <jsp:include page="../partials/modals/delete_semester.jsp" />
+                    <jsp:include page="../partials/modals/edit_semester.jsp" />
                 </div>
             </div>
         </div>
+        <script>
 
+            const btnAddSemester = document.getElementById('btn-add-sem')
+
+            const modalCreate = document.querySelector(".main-modal-create")
+            const modalDelete = document.querySelector(".main-modal-delete")
+            const modalEdit = document.querySelector(".main-modal-edit")
+            const closeButtonEdit = document.querySelectorAll(".modal-close-edit")
+            const closeButtonCreate = document.querySelectorAll(".modal-close-create")
+            const closeButtonDelete = document.querySelectorAll(".modal-close-delete")
+
+            const deletes = document.querySelectorAll(".delete")
+            const edits = document.querySelectorAll(".edit")
+            const btnDelete = document.querySelector(".btn-delete")
+
+            const idEdit = document.querySelector('.id-edit')
+            const nameEdit = document.querySelector('.name-edit')
+            const startdayEdit = document.querySelector('.startday-edit')
+            const enddayEdit = document.querySelector('.endday-edit')
+            const statusEdit = document.querySelector('.status-edit')
+            const schoolyearEdit = document.querySelector('.schoolyear-edit')
+
+            deletes.forEach(item => {
+                item.addEventListener("click", (e) => {
+                    openModal(modalDelete)
+                    setContentDeleteModal(item)
+                })
+            })
+            edits.forEach(item => {
+                item.addEventListener("click", (e) => {
+                    openModal(modalEdit)
+                    setContentEditModal(item)
+                })
+            })
+            function setContentEditModal(item) {
+                idEdit.value = item.getAttribute("data-id")
+                nameEdit.value = item.getAttribute("data-name")
+                startdayEdit.value = item.getAttribute("data-startday")
+                enddayEdit.value = item.getAttribute("data-endday")
+                statusEdit.innerHTML = item.getAttribute("data-status")
+                statusEdit.value = item.getAttribute("data-status")
+                schoolyearEdit.innerHTML = item.getAttribute("data-tennamhoc")
+                schoolyearEdit.value = item.getAttribute("data-idnamhoc")
+            }
+            function setContentDeleteModal(item) {
+                let id = item.getAttribute("data-id")
+                btnDelete.href = "/admin/semester/delete?id=" + id
+            }
+            btnAddSemester.addEventListener("click", (e) => openModal(modalCreate))
+
+            initModal([
+                { modal: modalCreate, closeButtons: closeButtonCreate },
+                { modal: modalDelete, closeButtons: closeButtonDelete },
+                { modal: modalEdit, closeButtons: closeButtonEdit }
+            ]);
+        </script>
     </body>
 
     </html>

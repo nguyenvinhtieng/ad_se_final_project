@@ -17,7 +17,7 @@
                             clip-rule="evenodd"></path>
                     </svg>
                 </button>
-                <a href="#" class="text-xl font-bold flex items-center lg:ml-2.5">
+                <a href="/admin/home" class="text-xl font-bold flex items-center lg:ml-2.5">
 
                     <span class="self-center whitespace-nowrap">CD - CNPM</span>
                 </a>
