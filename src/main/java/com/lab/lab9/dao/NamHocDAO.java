@@ -70,4 +70,18 @@ public class NamHocDAO {
         ps.executeUpdate();
         ps.close();
     }
+
+    public boolean checkNamHocActive(String id) throws  SQLException{
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM NAMHOC WHERE TRANGTHAI = 'ACTIVE'";
+        resultSet = stm.executeQuery(sql);
+        int id_rs = -1;
+        while (resultSet.next()) {
+            id_rs = resultSet.getInt("IDNAMHOC");
+        }
+        if(Integer.parseInt(id) != id_rs && id_rs != -1)
+            return false;
+
+        return true;
+    }
 }

@@ -1,9 +1,6 @@
 package com.lab.lab9.controllers;
 
-import com.lab.lab9.dao.LoaiThongBaoDAO;
-import com.lab.lab9.dao.NamHocDAO;
-import com.lab.lab9.dao.TaiKhoanDAO;
-import com.lab.lab9.dao.ThongBaoDAO;
+import com.lab.lab9.dao.*;
 import com.lab.lab9.models.LoaiThongBao;
 import com.lab.lab9.models.ThongBao;
 import org.springframework.stereotype.Controller;
@@ -29,6 +26,7 @@ public class AdminController {
     private LoaiThongBaoDAO loaiThongBaoDAO;
     private TaiKhoanDAO taiKhoanDAO;
     private NamHocDAO namHocDAO;
+    private HocKyDAO hocKyDAO;
     // GET [/admin/home] => Hiển thị trang chủ admin
     @RequestMapping(value="/home", method = RequestMethod.GET)
     public String showHomePage(ModelMap modelMap,
@@ -127,7 +125,8 @@ public class AdminController {
 //        if(!usernameCookie.equals("ADMIN")){
 //            return "redirect:/login";
 //        }
-
+        hocKyDAO = new HocKyDAO();
+        modelMap.addAttribute("hocky", hocKyDAO.getAllHocKy());
         return  "admin/semester";
     }
 
@@ -200,12 +199,16 @@ public class AdminController {
                                  @RequestParam(value="status") String status,
                                  HttpServletResponse response
     )  throws SQLException, ClassNotFoundException{
-        // Kiểm tra xem có học kỳ nào đang active không? => Nếu có r thì k chỉnh qua active được
-        if(status.equals("ACTIVE")){
-            // check here
-        }
 
         namHocDAO = new NamHocDAO();
+        // Kiểm tra xem có học kỳ nào đang active không? => Nếu có r thì k chỉnh qua active được
+        boolean isValidForActive = namHocDAO.checkNamHocActive(id);
+        if(status.equals("ACTIVE") && !isValidForActive){
+            // hiển thị lỗi
+
+            return  "redirect:/admin/school-year";
+        }
+
         namHocDAO.suaNamHoc(id, name, startday, endday, status);
         // Tạo cookie => tạo toast => Hiển thị thông báo
         String toast = "success#Edit/school/year/successfully!";

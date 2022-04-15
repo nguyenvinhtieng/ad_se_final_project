@@ -73,5 +73,5 @@ function checkToast() {
 }
 
 (function run() {
-    checkToast();
+    //checkToast();
 })();

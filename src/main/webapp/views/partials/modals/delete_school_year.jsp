@@ -5,7 +5,7 @@
         <div class="modal-content py-4 text-left px-6">
             <!--Title-->
             <div class="flex justify-between items-center pb-3">
-                <p class="text-2xl font-bold">Add new notification</p>
+                <p class="text-2xl font-bold">Delete schoole year</p>
                 <div class="modal-close-delete cursor-pointer z-50">
                     <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                         viewBox="0 0 18 18">
@@ -17,7 +17,7 @@
             </div>
             <!--Body-->
             <div class="my-5">
-                Are you sure want to delete this notification?
+                Are you sure want to delete this school year?
             </div>
             <!--Footer-->
             <div class="flex justify-end pt-2">
