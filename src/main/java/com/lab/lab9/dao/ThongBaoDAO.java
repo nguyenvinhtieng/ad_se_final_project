@@ -61,5 +61,25 @@ public class ThongBaoDAO {
         ps.execute();
         ps.close();
     }
+	
+	public List<ThongBao> detailNotify(int idThongBao) throws SQLException{
+    	//ThongBao tb = null;
+    	List<ThongBao> notifies = new ArrayList<>();
+    	stm = conn.createStatement();
+        String sql = "SELECT * FROM THONGBAO WHERE IDTHONGBAO = '" + idThongBao + "'";
+        resultSet = stm.executeQuery(sql);
+        while(resultSet.next()) {
+            ThongBao tb = new ThongBao(
+                    resultSet.getInt("IDTHONGBAO"),
+                    resultSet.getString("TIEUDE"),
+                    resultSet.getString("NOIDUNG"),
+                    resultSet.getString("NGAYDANG"),
+                    resultSet.getInt("IDLOAITHONGBAO"));
+            notifies.add(tb);
+        }
+        resultSet.close();
+        stm.close();
+        return notifies;
+    }
 
 }

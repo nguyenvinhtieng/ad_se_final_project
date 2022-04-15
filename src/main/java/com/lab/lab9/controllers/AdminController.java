@@ -55,6 +55,22 @@ public class AdminController {
         modelMap.addAttribute("types", loaiThongBaoDAO.getAllType());
         return  "admin/notify";
     }
+	
+	// GET [/admin/notify/?id=] => Hiển thị trang chi tiết thông báo
+    @RequestMapping(value="/notify/detail", method = RequestMethod.GET)
+    public String showDetailNotifyPage(ModelMap modelMap,
+                               @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                               @RequestParam(value = "id") int notify_id
+    )  throws SQLException, ClassNotFoundException{
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        
+        thongBaoDAO = new ThongBaoDAO();
+
+        modelMap.addAttribute("notifies_detail", thongBaoDAO.detailNotify(notify_id));
+        return  "admin/notify_detail";
+    }
 
     // POST [/admin/notify] => Tạo thông báo
     @RequestMapping(value="/notify", method = RequestMethod.POST)

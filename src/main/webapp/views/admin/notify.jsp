@@ -101,7 +101,7 @@
                                                             </p>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <a href="#" class="text-gray-400 hover:text-gray-100  mr-2">
+                                                            <a href="/admin/notify/detail?id=${thongbao.getIdThongBao()}" class="text-gray-400 hover:text-gray-100  mr-2">
                                                                 <i
                                                                     class="material-icons-outlined text-base">visibility</i>
                                                             </a>
