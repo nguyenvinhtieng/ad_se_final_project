@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +6,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Home Admin</title>
    <jsp:include page="../partials/file_and_lib.jsp" />
 </head>
@@ -60,7 +62,7 @@
                                     <div>
                                         <div class="mt-3 text-3xl font-bold leading-8">4.510</div>
 
-                                        <div class="mt-1 text-base text-gray-600">Giảng Viên</div>
+                                        <div class="mt-1 text-base text-gray-600">Giáo Viên</div>
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +87,7 @@
                                     <div>
                                         <div class="mt-3 text-3xl font-bold leading-8">4.510</div>
 
-                                        <div class="mt-1 text-base text-gray-600">Phòng học</div>
+                                        <div class="mt-1 text-base text-gray-600">Phòng Học</div>
                                     </div>
                                 </div>
                             </div>
