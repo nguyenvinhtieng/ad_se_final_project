@@ -20,6 +20,27 @@
                         </a>
                     </li>
                     <li>
+                        <a href="/admin/classroom"
+                            class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                            <ion-icon name="today"></ion-icon>
+                            <span class="ml-3">Classrooms</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/classes"
+                            class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                            <ion-icon name="planet"></ion-icon>
+                            <span class="ml-3">Classes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/students"
+                            class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                            <ion-icon name="people-circle"></ion-icon>
+                            <span class="ml-3">Students</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="/admin/notify"
                             class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                             <ion-icon name="notifications"></ion-icon>
@@ -40,6 +61,7 @@
                             <span class="ml-3">School Year</span>
                         </a>
                     </li>
+
                     <li>
                         <a href="#"
                             class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">

@@ -2,6 +2,7 @@ package com.lab.lab9.controllers;
 
 import com.lab.lab9.dao.*;
 import com.lab.lab9.models.LoaiThongBao;
+import com.lab.lab9.models.LopHoc;
 import com.lab.lab9.models.ThongBao;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,6 +29,9 @@ public class AdminController {
     private TaiKhoanDAO taiKhoanDAO;
     private NamHocDAO namHocDAO;
     private HocKyDAO hocKyDAO;
+    private HocSinhDAO hocSinhDAO;
+    private PhongHocDAO phongHocDAO;
+    private LopHocDAO lopHocDAO;
     // GET [/admin/home] => Hiển thị trang chủ admin
     @RequestMapping(value="/home", method = RequestMethod.GET)
     public String showHomePage(ModelMap modelMap,
@@ -398,6 +402,218 @@ public class AdminController {
         cookie_toast.setPath("/admin/school-year");
         response.addCookie(cookie_toast);
         return  "redirect:/admin/school-year";
+    }
+
+
+    // GET [/admin/students] => Hiển thị trang quản lý học sinh
+    @RequestMapping(value="/students", method = RequestMethod.GET)
+    public String showStudentList(ModelMap modelMap,
+                                       @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+
+                                       HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        hocSinhDAO = new HocSinhDAO();
+        modelMap.addAttribute("students", hocSinhDAO.getAllStudent());
+        return  "admin/students";
+    }
+
+    // GET [/admin/classroom] => Hiển thị trang quản lý phòng học
+    @RequestMapping(value="/classroom", method = RequestMethod.GET)
+    public String showClassroomPage(ModelMap modelMap,
+                                  @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                                    @CookieValue(value = "toast_message", defaultValue = "") String toastMessage,
+                                    HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+        if(!toastMessage.equals("")){
+            Cookie cookie = new Cookie("toast_message", "");
+            cookie.setPath("/admin/classroom");
+            cookie.setMaxAge(-1);
+            response.addCookie(cookie);
+            String[] args = toastMessage.split("#");
+            String type = args[0];
+            String _message_ = args[1];
+            String title = args[2];
+            String message = String.join(" ", _message_.split("/"));
+
+            modelMap.addAttribute("type_toast", type);
+            modelMap.addAttribute("title_toast", title);
+            modelMap.addAttribute("message_toast", message);
+        }
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        phongHocDAO = new PhongHocDAO();
+        modelMap.addAttribute("rooms", phongHocDAO.getALlPhongHoc());
+        return  "admin/classroom";
+    }
+
+    // POST [/admin/classroom] => Thêm phòng học
+    @RequestMapping(value="/classroom", method = RequestMethod.POST)
+    public String addRoom(ModelMap modelMap,
+                                    @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                          @RequestParam(value="name") String name,
+                                    HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        phongHocDAO = new PhongHocDAO();
+        phongHocDAO.taoPhongHoc(name);
+        // hiển thị thoong baos
+        String toast = "success#Create/room/successfully!#Success!";
+        Cookie cookie_toast = new Cookie("toast_message", toast);
+        cookie_toast.setPath("/admin/classroom");
+        response.addCookie(cookie_toast);
+        return  "redirect:/admin/classroom";
+    }
+
+
+    // GET [/admin/classroom/delete?id=id] => Xoa phòng học
+    @RequestMapping(value="/classroom/delete", method = RequestMethod.GET)
+    public String deleteRoom(ModelMap modelMap,
+                          @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                          @RequestParam(value="id") String id,
+                          HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        phongHocDAO = new PhongHocDAO();
+        phongHocDAO.xoaPhongHoc(id);
+        // hiển thị thoong baos
+        String toast = "success#Delete/room/successfully!#Success!";
+        Cookie cookie_toast = new Cookie("toast_message", toast);
+        cookie_toast.setPath("/admin/classroom");
+        response.addCookie(cookie_toast);
+        return  "redirect:/admin/classroom";
+    }
+
+    // POST [/admin/classroom/edit] => Sửa phòng học
+    @RequestMapping(value="/classroom/edit", method = RequestMethod.POST)
+    public String editRoom(ModelMap modelMap,
+                             @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                             @RequestParam(value="id") String id,
+                           @RequestParam(value="name") String name,
+                             HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        phongHocDAO = new PhongHocDAO();
+        phongHocDAO.suaPhongHoc(id,name);
+        // hiển thị thoong baos
+        String toast = "success#Edit/room/successfully!#Success!";
+        Cookie cookie_toast = new Cookie("toast_message", toast);
+        cookie_toast.setPath("/admin/classroom");
+        response.addCookie(cookie_toast);
+        return  "redirect:/admin/classroom";
+    }
+
+    // GET [/admin/classes] => Hiển thị trang quản lý lớp học
+    @RequestMapping(value="/classes", method = RequestMethod.GET)
+    public String showClassPage(ModelMap modelMap,
+                                    @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                                    @CookieValue(value = "toast_message", defaultValue = "") String toastMessage,
+                                    HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+        if(!toastMessage.equals("")){
+            Cookie cookie = new Cookie("toast_message", "");
+            cookie.setPath("/admin/classes");
+            cookie.setMaxAge(-1);
+            response.addCookie(cookie);
+            String[] args = toastMessage.split("#");
+            String type = args[0];
+            String _message_ = args[1];
+            String title = args[2];
+            String message = String.join(" ", _message_.split("/"));
+
+            modelMap.addAttribute("type_toast", type);
+            modelMap.addAttribute("title_toast", title);
+            modelMap.addAttribute("message_toast", message);
+        }
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        lopHocDAO = new LopHocDAO();
+        phongHocDAO = new PhongHocDAO();
+        modelMap.addAttribute("classes", lopHocDAO.getALlLopHoc());
+        modelMap.addAttribute("rooms", phongHocDAO.getALlPhongHoc());
+        return  "admin/classes";
+    }
+    // GET [/admin/classes/delete?id=id] => Xóa phòng học
+    @RequestMapping(value="/classes/delete", method = RequestMethod.GET)
+    public String deleteClass(ModelMap modelMap,
+                           @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                           @RequestParam(value="id") String id,
+                           HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        lopHocDAO = new LopHocDAO();
+        lopHocDAO.xoaLopHoc(id);
+        // hiển thị thoong baos
+        String toast = "success#Delete/class/successfully!#Success!";
+        Cookie cookie_toast = new Cookie("toast_message", toast);
+        cookie_toast.setPath("/admin/classes");
+        response.addCookie(cookie_toast);
+        return  "redirect:/admin/classes";
+    }
+    // POST [/admin/classes] => Tạo Lớp học
+    @RequestMapping(value="/classes", method = RequestMethod.POST)
+    public String createClass(ModelMap modelMap,
+                              @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                              @RequestParam(value="name") String name,
+                              @RequestParam(value="khoi") String khoi,
+                              @RequestParam(value="id-room") String idPhong,
+                              @RequestParam(value="namVaoTruong") String namVaoTruong,
+                              HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        lopHocDAO = new LopHocDAO();
+        lopHocDAO.taoLopHoc(name, khoi, idPhong, namVaoTruong);
+        // hiển thị thoong baos
+        String toast = "success#Create/class/successfully!#Success!";
+        Cookie cookie_toast = new Cookie("toast_message", toast);
+        cookie_toast.setPath("/admin/classes");
+        response.addCookie(cookie_toast);
+        return  "redirect:/admin/classes";
+    }
+
+    // POST [/admin/classes/edit] => Sửa Lớp học
+    @RequestMapping(value="/classes/edit", method = RequestMethod.POST)
+    public String editClass(ModelMap modelMap,
+                              @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                            @RequestParam(value="id") String id,
+                            @RequestParam(value="name") String name,
+                              @RequestParam(value="khoi") String khoi,
+                              @RequestParam(value="id-room") String idPhong,
+                              @RequestParam(value="namVaoTruong") String namVaoTruong,
+                              HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        lopHocDAO = new LopHocDAO();
+        lopHocDAO.suaLopHoc(name, khoi, idPhong, namVaoTruong, id);
+        // hiển thị thoong baos
+        String toast = "success#Edit/class/successfully!#Success!";
+        Cookie cookie_toast = new Cookie("toast_message", toast);
+        cookie_toast.setPath("/admin/classes");
+        response.addCookie(cookie_toast);
+        return  "redirect:/admin/classes";
     }
 
 }
