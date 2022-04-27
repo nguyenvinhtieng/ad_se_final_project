@@ -88,9 +88,32 @@
                                                             </p>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                                ${c.getTenPhongHoc()}
-                                                            </p>
+                                                            <span class="px-2 py-1 font-semibold leading-tight rounded-sm
+                                                                <c:choose>
+                                                                    <c:when test="${c.getIdPhongHoc()==0 }">
+                                                                text-red-700 bg-red-100
+                                                                ">
+                                                                NO ROOM
+                                                            </span>
+                                                            <br />
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <c:choose>
+                                                                    <c:when test="${c.getIdPhongHoc()==-1 }">
+                                                                        text-red-700 bg-red-100
+                                                                        ">
+                                                                        GRADUATED
+                                                                        </span>
+                                                                        <br />
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        text-blue-700 bg-blue-100">
+                                                                        ${c.getTenPhongHoc()}
+                                                                        </span>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </c:otherwise>
+                                                            </c:choose>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                             <p class="text-gray-900 whitespace-no-wrap">

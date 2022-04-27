@@ -24,19 +24,53 @@ public class PhongHocDAO {
     public List<PhongHoc> getALlPhongHoc() throws SQLException {
         List<PhongHoc> phongHoc = new ArrayList<>();
         stm = conn.createStatement();
-        String sql = "SELECT * FROM PHONGHOC";
+        String sql = "SELECT * FROM PHONGHOC LEFT JOIN LOP ON PHONGHOC.TRANGTHAI = LOP.IDLOP";
         resultSet = stm.executeQuery(sql);
         while (resultSet.next()) {
             PhongHoc p = new PhongHoc(
                     resultSet.getInt("IDPHONGHOC"),
-                    resultSet.getString("TENPHONGHOC")
+                    resultSet.getString("TENPHONGHOC"),
+                    resultSet.getInt("TRANGTHAI"),
+                    resultSet.getString("TENLOP")
             );
             phongHoc.add(p);
         }
         return phongHoc;
     }
+
+    public PhongHoc layPhongHoc(String id) throws SQLException {
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM PHONGHOC WHERE IDPHONGHOC =" + id;
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            PhongHoc p = new PhongHoc(
+                    resultSet.getInt("IDPHONGHOC"),
+                    resultSet.getString("TENPHONGHOC"),
+                    resultSet.getInt("TRANGTHAI")
+            );
+            return p;
+        }
+        return new PhongHoc();
+    }
+
+    public List<PhongHoc> getALlPhongHocTrong() throws SQLException {
+        List<PhongHoc> phongHoc = new ArrayList<>();
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM PHONGHOC WHERE TRANGTHAI = 0";
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            PhongHoc p = new PhongHoc(
+                    resultSet.getInt("IDPHONGHOC"),
+                    resultSet.getString("TENPHONGHOC"),
+                    resultSet.getInt("TRANGTHAI")
+            );
+            phongHoc.add(p);
+        }
+        return phongHoc;
+    }
+
     public void taoPhongHoc(String tenPhongHoc) throws SQLException{
-        String sql = "INSERT INTO PHONGHOC VALUES(?)";
+        String sql = "INSERT INTO PHONGHOC(TENPHONGHOC) VALUES(?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, tenPhongHoc);
         ps.execute();
@@ -59,5 +93,18 @@ public class PhongHocDAO {
         ps.executeUpdate();
         ps.close();
     }
+
+    public void doiTrangThaiPhong(String idPhongHoc, String trangThai) throws SQLException{
+        int idPhong = Integer.parseInt(idPhongHoc);
+        String sql = "UPDATE PHONGHOC SET TRANGTHAI = ? WHERE IDPHONGHOC = ?";
+        System.out.println("ID PHONG == " + idPhongHoc);
+        System.out.println("trangThai == " + trangThai);
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, Integer.parseInt(trangThai));
+        ps.setInt(2, idPhong);
+        ps.executeUpdate();
+        ps.close();
+    }
+
 
 }

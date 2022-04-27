@@ -63,7 +63,7 @@
                     </li>
 
                     <li>
-                        <a href="#"
+                        <a href="/logout"
                             class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                             <ion-icon name="log-out"></ion-icon>
                             <span class="ml-3">Logout</span>

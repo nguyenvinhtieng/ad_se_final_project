@@ -3,6 +3,7 @@ package com.lab.lab9.controllers;
 import com.lab.lab9.dao.*;
 import com.lab.lab9.models.LoaiThongBao;
 import com.lab.lab9.models.LopHoc;
+import com.lab.lab9.models.PhongHoc;
 import com.lab.lab9.models.ThongBao;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -404,23 +405,6 @@ public class AdminController {
         return  "redirect:/admin/school-year";
     }
 
-
-    // GET [/admin/students] => Hiển thị trang quản lý học sinh
-    @RequestMapping(value="/students", method = RequestMethod.GET)
-    public String showStudentList(ModelMap modelMap,
-                                       @CookieValue(value = "username", defaultValue = "") String usernameCookie,
-
-                                       HttpServletResponse response
-    )  throws SQLException, ClassNotFoundException{
-
-        if(usernameCookie.equals("")){
-            return "redirect:/login";
-        }
-        hocSinhDAO = new HocSinhDAO();
-        modelMap.addAttribute("students", hocSinhDAO.getAllStudent());
-        return  "admin/students";
-    }
-
     // GET [/admin/classroom] => Hiển thị trang quản lý phòng học
     @RequestMapping(value="/classroom", method = RequestMethod.GET)
     public String showClassroomPage(ModelMap modelMap,
@@ -485,6 +469,15 @@ public class AdminController {
             return "redirect:/login";
         }
         phongHocDAO = new PhongHocDAO();
+        PhongHoc p = phongHocDAO.layPhongHoc(id);
+        if(p.getTrangThai() > 0){
+            String toast = "error#Can't/delete/this/room!#Error!";
+            Cookie cookie_toast = new Cookie("toast_message", toast);
+            cookie_toast.setPath("/admin/classroom");
+            response.addCookie(cookie_toast);
+            return  "redirect:/admin/classroom";
+        }
+
         phongHocDAO.xoaPhongHoc(id);
         // hiển thị thoong baos
         String toast = "success#Delete/room/successfully!#Success!";
@@ -544,10 +537,10 @@ public class AdminController {
         lopHocDAO = new LopHocDAO();
         phongHocDAO = new PhongHocDAO();
         modelMap.addAttribute("classes", lopHocDAO.getALlLopHoc());
-        modelMap.addAttribute("rooms", phongHocDAO.getALlPhongHoc());
+        modelMap.addAttribute("rooms", phongHocDAO.getALlPhongHocTrong());
         return  "admin/classes";
     }
-    // GET [/admin/classes/delete?id=id] => Xóa phòng học
+    // GET [/admin/classes/delete?id=id] => Xóa lớp học
     @RequestMapping(value="/classes/delete", method = RequestMethod.GET)
     public String deleteClass(ModelMap modelMap,
                            @CookieValue(value = "username", defaultValue = "") String usernameCookie,
@@ -559,6 +552,12 @@ public class AdminController {
             return "redirect:/login";
         }
         lopHocDAO = new LopHocDAO();
+        phongHocDAO = new PhongHocDAO();
+        LopHoc l = lopHocDAO.layLopHoc(id);
+        System.out.println(l.toString());
+        if(l.getIdPhongHoc() > 0){
+            phongHocDAO.doiTrangThaiPhong(String.valueOf(l.getIdPhongHoc()),"0");
+        }
         lopHocDAO.xoaLopHoc(id);
         // hiển thị thoong baos
         String toast = "success#Delete/class/successfully!#Success!";
@@ -573,7 +572,6 @@ public class AdminController {
                               @CookieValue(value = "username", defaultValue = "") String usernameCookie,
                               @RequestParam(value="name") String name,
                               @RequestParam(value="khoi") String khoi,
-                              @RequestParam(value="id-room") String idPhong,
                               @RequestParam(value="namVaoTruong") String namVaoTruong,
                               HttpServletResponse response
     )  throws SQLException, ClassNotFoundException{
@@ -582,6 +580,7 @@ public class AdminController {
             return "redirect:/login";
         }
         lopHocDAO = new LopHocDAO();
+        String idPhong = "0";
         lopHocDAO.taoLopHoc(name, khoi, idPhong, namVaoTruong);
         // hiển thị thoong baos
         String toast = "success#Create/class/successfully!#Success!";
@@ -607,6 +606,12 @@ public class AdminController {
             return "redirect:/login";
         }
         lopHocDAO = new LopHocDAO();
+        phongHocDAO = new PhongHocDAO();
+        LopHoc l = lopHocDAO.layLopHoc(id);
+        if(l.getIdPhongHoc() > 0){
+            phongHocDAO.doiTrangThaiPhong(String.valueOf(l.getIdPhongHoc()),"0");
+        }
+        phongHocDAO.doiTrangThaiPhong(idPhong,id);
         lopHocDAO.suaLopHoc(name, khoi, idPhong, namVaoTruong, id);
         // hiển thị thoong baos
         String toast = "success#Edit/class/successfully!#Success!";
@@ -616,4 +621,34 @@ public class AdminController {
         return  "redirect:/admin/classes";
     }
 
+
+    // GET [/admin/students] => Hiển thị trang quản lý học sinh
+    @RequestMapping(value="/students", method = RequestMethod.GET)
+    public String showStudentList(ModelMap modelMap,
+                                  @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                                  @CookieValue(value = "toast_message", defaultValue = "") String toastMessage,
+                                  HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+        if(!toastMessage.equals("")){
+            Cookie cookie = new Cookie("toast_message", "");
+            cookie.setPath("/admin/students");
+            cookie.setMaxAge(-1);
+            response.addCookie(cookie);
+            String[] args = toastMessage.split("#");
+            String type = args[0];
+            String _message_ = args[1];
+            String title = args[2];
+            String message = String.join(" ", _message_.split("/"));
+
+            modelMap.addAttribute("type_toast", type);
+            modelMap.addAttribute("title_toast", title);
+            modelMap.addAttribute("message_toast", message);
+        }
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        hocSinhDAO = new HocSinhDAO();
+        modelMap.addAttribute("students", hocSinhDAO.getAllStudent());
+        return  "admin/students";
+    }
 }

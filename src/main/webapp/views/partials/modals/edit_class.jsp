@@ -60,6 +60,7 @@
                                 <c:forEach items="${rooms}" var="r">
                                     <option value="${r.getIdPhongHoc()}">${r.getTenPhongHoc()}</option>
                                 </c:forEach>
+                                <option value="-1">Graduated</option>
                             </select>
                         </div>
                         <div class="mb-4">

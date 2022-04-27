@@ -59,25 +59,14 @@
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                         Sex
                                                     </th>
-                                                    <th
-                                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                        Original place
-                                                    </th>
-                                                    <th
-                                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                        Nation
-                                                    </th>
-                                                    <th
-                                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                        Householder
-                                                    </th>
-                                                    <th
-                                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                        Phone
-                                                    </th>
+
                                                     <th
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                         Status
+                                                    </th>
+                                                    <th
+                                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                        Action
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -128,42 +117,6 @@
                                                             </div>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <div class="flex items-center">
-                                                                <div class="ml-3">
-                                                                    <p class="text-gray-900 whitespace-no-wrap">
-                                                                        ${student.getQueQuan()}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <div class="flex items-center">
-                                                                <div class="ml-3">
-                                                                    <p class="text-gray-900 whitespace-no-wrap">
-                                                                        ${student.getDanToc()}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <div class="flex items-center">
-                                                                <div class="ml-3">
-                                                                    <p class="text-gray-900 whitespace-no-wrap">
-                                                                        ${student.getHoKhau()}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <div class="flex items-center">
-                                                                <div class="ml-3">
-                                                                    <p class="text-gray-900 whitespace-no-wrap">
-                                                                        ${student.getSdtPhuHuynh()}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                             <span class="px-2 py-1 font-semibold leading-tight rounded-sm
                                                                 <c:choose>
                                                                     <c:when
@@ -181,14 +134,15 @@
                                                             </span>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                            <p data-id=" ${hk.getIdHocKy()}"
+                                                                class="inline-block cursor-pointer delete text-gray-400 hover:text-gray-100 ml-2">
+                                                                <i class="material-icons-round text-base">visibility</i>
+                                                            </p>
                                                             <p
                                                                 class="edit cursor-pointer inline-block text-gray-400 hover:text-gray-100 mx-2">
                                                                 <i class="material-icons-outlined text-base">edit</i>
                                                             </p>
-                                                            <p data-id=" ${hk.getIdHocKy()}"
-                                                                class="inline-block cursor-pointer delete text-gray-400 hover:text-gray-100 ml-2">
-                                                                <i class="material-icons-round text-base">view</i>
-                                                                </a>
+
                                                         </td>
                                                     </tr>
                                                 </c:forEach>

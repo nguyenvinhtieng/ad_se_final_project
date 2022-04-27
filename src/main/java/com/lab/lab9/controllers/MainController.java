@@ -33,6 +33,15 @@ public class MainController {
         return  "login";
     }
 
+    // Logout
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public String logout(ModelMap modelMap){
+//        modelMap.addAttribute("error", "Khong vo loi");
+
+        // Xoa Cookie
+        return  "redirect:/login";
+    }
+
     // POST [/login]
     // Xử lý user đăng nhập
     @RequestMapping(value="/login", method = RequestMethod.POST)

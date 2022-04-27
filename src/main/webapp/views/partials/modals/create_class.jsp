@@ -7,7 +7,7 @@
                 <div class="modal-content py-4 text-left px-6">
                     <!--Title-->
                     <div class="flex justify-between items-center pb-3">
-                        <p class="text-2xl font-bold">Add new Class</p>
+                        <p class="text-2xl font-bold">Add new Student</p>
                         <div class="modal-close-create cursor-pointer z-50">
                             <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18"
                                 height="18" viewBox="0 0 18 18">
@@ -27,14 +27,7 @@
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="name" v-model="form.email" required autofocus />
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-normal mb-2" for="username">
-                                Class Name
-                            </label>
-                            <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                name="name" v-model="form.email" required autofocus />
-                        </div>
+
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-normal mb-2" for="username">
                                 Grade
@@ -48,19 +41,7 @@
                                 <option value="12">12</option>
                             </select>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-normal mb-2" for="username">
-                                Room
-                            </label>
-                            <select
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                name="id-room" v-model="form.email" required autofocus>
-                                <option value="">--Choose room--</option>
-                                <c:forEach items="${rooms}" var="r">
-                                    <option value="${r.getIdPhongHoc()}">${r.getTenPhongHoc()}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
+
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-normal mb-2" for="username">
                                 Nam Vao Truong

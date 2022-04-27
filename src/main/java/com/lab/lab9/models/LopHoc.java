@@ -8,6 +8,21 @@ public class LopHoc {
     private int namVaoTruong;
     private String tenPhongHoc;
 
+    public LopHoc() {
+    }
+
+    @Override
+    public String toString() {
+        return "LopHoc{" +
+                "idLop=" + idLop +
+                ", tenLop='" + tenLop + '\'' +
+                ", khoi=" + khoi +
+                ", idPhongHoc=" + idPhongHoc +
+                ", namVaoTruong=" + namVaoTruong +
+                ", tenPhongHoc='" + tenPhongHoc + '\'' +
+                '}';
+    }
+
     public LopHoc(int idLop, String tenLop, int khoi, int idPhongHoc, int namVaoTruong, String tenPhongHoc) {
         this.idLop = idLop;
         this.tenLop = tenLop;

@@ -23,7 +23,7 @@
                         <div class="bg-white p-8 rounded-md w-full">
                             <div class=" flex items-center justify-between pb-2">
                                 <div>
-                                    <h2 class="text-gray-600 font-semibold">Notification</h2>
+                                    <h2 class="text-gray-600 font-semibold">Classrooms</h2>
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <!-- <div class="flex bg-gray-50 items-center p-2 rounded-md">
@@ -61,6 +61,10 @@
                                                     </th>
                                                     <th
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                        Status
+                                                    </th>
+                                                    <th
+                                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                         Action
                                                     </th>
                                                 </tr>
@@ -81,6 +85,24 @@
                                                             <p class="text-gray-900 whitespace-no-wrap">
                                                                 ${r.getTenPhongHoc()}
                                                             </p>
+                                                        </td>
+                                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                            <span class="px-2 py-1 font-semibold leading-tight rounded-sm
+                                                                <c:choose>
+                                                                    <c:when test="${r.getTrangThai()==0 }">
+                                                                text-red-700 bg-red-100
+                                                                ">
+                                                                EMPTY
+                                                            </span>
+                                                            <br />
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                text-blue-700 bg-blue-100">
+                                                                ${r.getTenLopHoc()}
+                                                                </span>
+                                                            </c:otherwise>
+                                                            </c:choose>
+
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                             <p data-id="${r.getIdPhongHoc()}"

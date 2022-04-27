@@ -3,40 +3,38 @@ package com.lab.lab9.models;
 public class PhongHoc {
     private int idPhongHoc;
     private String tenPhongHoc;
-    private String trangThai;
+    private int trangThai;
+    private String tenLopHoc;
 
-    public PhongHoc(int idPhongHoc, String tenPhongHoc) {
-        this.idPhongHoc = idPhongHoc;
-        this.tenPhongHoc = tenPhongHoc;
+    public PhongHoc() {
     }
 
-    public PhongHoc(int idPhongHoc, String tenPhongHoc, String trangThai) {
+    public PhongHoc(int idPhongHoc, String tenPhongHoc, int trangThai) {
         this.idPhongHoc = idPhongHoc;
         this.tenPhongHoc = tenPhongHoc;
         this.trangThai = trangThai;
+    }
+
+    public PhongHoc(int idPhongHoc, String tenPhongHoc, int trangThai, String tenLopHoc) {
+        this.idPhongHoc = idPhongHoc;
+        this.tenPhongHoc = tenPhongHoc;
+        this.trangThai = trangThai;
+        this.tenLopHoc = tenLopHoc;
     }
 
     public int getIdPhongHoc() {
         return idPhongHoc;
     }
 
-    public void setIdPhongHoc(int idPhongHoc) {
-        this.idPhongHoc = idPhongHoc;
-    }
-
     public String getTenPhongHoc() {
         return tenPhongHoc;
     }
 
-    public void setTenPhongHoc(String tenPhongHoc) {
-        this.tenPhongHoc = tenPhongHoc;
-    }
-
-    public String getTrangThai() {
+    public int getTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(String trangThai) {
-        this.trangThai = trangThai;
+    public String getTenLopHoc() {
+        return tenLopHoc;
     }
 }
