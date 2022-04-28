@@ -20,10 +20,10 @@ public class TaiKhoanDAO {
         this.conn = DriverManager.getConnection(url, userName, passWord);
     }
 
-    public TaiKhoan getUserData(String username, String password) throws  SQLException{
+    public TaiKhoan getUserData(String username) throws  SQLException{
         TaiKhoan taikhoan = new TaiKhoan();
         stm = conn.createStatement();
-        String sql = "SELECT * FROM TAIKHOAN WHERE TAIKHOAN = '"+username+"' and MATKHAU='" + password + "'";
+        String sql = "SELECT * FROM TAIKHOAN WHERE TAIKHOAN = '"+username+"'";
         resultSet = stm.executeQuery(sql);
         String role = "";
         while(resultSet.next()) {
@@ -62,49 +62,23 @@ public class TaiKhoanDAO {
         ps.executeUpdate();
         ps.close();
     }
-//    public List<Laptop> getLaptops() throws SQLException {
-//        List<Laptop> laptops = new ArrayList<>();
-//        stm = conn.createStatement();
-//        resultSet = stm.executeQuery("select * from laptop");
-//        while(resultSet.next()) {
-//            Laptop lt = new Laptop(
-//                    resultSet.getInt(1),
-//                    resultSet.getString(2),
-//                    resultSet.getInt(3),
-//                    resultSet.getInt(4),
-//                    resultSet.getString(5));
-//            laptops.add(lt);
-//        }
-//
-//        resultSet.close();
-//        stm.close();
-//        return laptops;
-//    }
-//    public void addNewLaptop(String name, int ram, int price, String image)  throws SQLException {
-//        String sql = "INSERT INTO laptop VALUES(?, ?, ?, ?)";
-//        PreparedStatement ps = conn.prepareStatement(sql);
-//        ps.setString(1, name);
-//        ps.setInt(2, ram);
-//        ps.setInt(3, price);
-//        ps.setString(4, image);
-//        ps.execute();
-//        ps.close();
-//    }
-//    public void deleteLaptop(int id) throws SQLException{
-//        PreparedStatement ps = conn.prepareStatement("DELETE FROM laptop WHERE id = ?");
-//        ps.setInt(1, id);
-//        ps.execute();
-//        ps.close();
-//    }
-//    public void editLaptop(int id, String name, int ram, int price) throws  SQLException {
-//        String sql = "UPDATE laptop SET name = ?, ram = ?, price = ? WHERE id = ?";
-//        PreparedStatement ps = conn.prepareStatement(sql);
-//        ps.setString(1, name);
-//        ps.setInt(2, ram);
-//        ps.setInt(3, price);
-//        ps.setInt(4, id);
-//        ps.executeUpdate();
-//        ps.close();
-//    }
 
+    public boolean kiemTraUsername(String userName) throws  SQLException{
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM TAIKHOAN WHERE TAIKHOAN = '"+userName+"'";
+        resultSet = stm.executeQuery(sql);
+        return resultSet.getRow() == 0;
+    }
+
+    public void taoTaiKhoan(String taiKhoan, String matKhau, String role) throws  SQLException{
+        String sql = "INSERT INTO TAIKHOAN VALUES(?, ?, ?, ?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        String trangThai = "ACTIVE";
+        ps.setString(1, taiKhoan);
+        ps.setString(2, matKhau);
+        ps.setString(3, role);
+        ps.setString(4, trangThai);
+        ps.execute();
+        ps.close();
+    }
 }

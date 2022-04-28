@@ -2,6 +2,7 @@ package com.lab.lab9.controllers;
 import com.lab.lab9.dao.TaiKhoanDAO;
 
 import com.lab.lab9.models.TaiKhoan;
+import com.lab.lab9.utils.Hashing;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,10 +62,17 @@ public class MainController {
         accountDAO = new TaiKhoanDAO();
 
         // Lấy thông tin của user
-        TaiKhoan taikhoan = accountDAO.getUserData(username, password);
+        TaiKhoan taikhoan = accountDAO.getUserData(username);
+        System.out.println("Pass" + taikhoan.getPassword());
         // Role = "" => Tài khoản đăng nhập không đúng
         if(taikhoan.getRole().equals("")){
             modelMap.addAttribute("error", "Invalid Username or Password!");
+            modelMap.addAttribute("class_error", "p-3");
+            return "login";
+        }
+        boolean validPass = Hashing.checkPassword(password,taikhoan.getPassword());
+        if(!validPass){
+            modelMap.addAttribute("error", "Password Wrong!");
             modelMap.addAttribute("class_error", "p-3");
             return "login";
         }
@@ -74,7 +82,6 @@ public class MainController {
             modelMap.addAttribute("class_error", "p-3");
             return "login";
         }
-
 
         // Tạo cookie => Có thể thêm bước mã hóa cookie sau này
         Cookie cookie_username = new Cookie("username", username);
@@ -86,67 +93,13 @@ public class MainController {
         if(taikhoan.getRole().equals("ADMIN")){
             return "redirect:/admin/home";
         }
-        if(taikhoan.getRole().equals("STUDENT")){
+        if(taikhoan.getRole().equals("HOCSINH")){
             return "redirect:/student/home";
+        }
+        if(taikhoan.getRole().equals("GIAOVIEN")){
+            return "redirect:/teacher/home";
         }
         return "redirect:/";
     }
-//    // POST [/]
-//    @RequestMapping(value="", method = RequestMethod.POST)
-//    public String addNewLaptop(ModelMap modelMap,
-//                               @RequestParam(value = "name") String name,
-//                               @RequestParam(value = "ram") int ram,
-//                               @RequestParam(value = "price") int price,
-//                               @RequestParam("image") MultipartFile image) throws SQLException, ClassNotFoundException, IOException {
-//        String fileNameNew = GenerateId.getRandomString(10) + ".png";
-//        UploadFile.saveFile(fileNameNew, image);
-//        String error = "";
-//        if(name.equals("")) error += "Laptop name can not be empty";
-//        if(ram < 0) error += "Laptop RAM not valid ";
-//        if(price < 0) error += "Laptop Price not valid";
-//        if(!error.equals("")) {
-//            modelMap.addAttribute("error", error);
-//            return  "error";
-//        }
-//        try{
-//            laptopDAO.addNewLaptop(name, ram, price, fileNameNew);
-//        }catch(SQLException e){
-//            System.out.print(e);
-//        }
-//        return "redirect:/";
-//    }
-//    // GET [/delete]
-//    @RequestMapping(value="/delete", method = RequestMethod.GET)
-//    public String deleteLaptop(@RequestParam(value = "id") int id){
-//        try{
-//            laptopDAO.deleteLaptop(id);
-//        }catch(SQLException e){
-//            System.out.print(e);
-//        }
-//        return "redirect:/";
-//    }
-//
-//    // POST [/edit]
-//    @RequestMapping(value="/edit", method = RequestMethod.POST)
-//    public String editLaptop(ModelMap modelMap,
-//                             @RequestParam(value = "id") int id,
-//                             @RequestParam(value = "name") String name,
-//                             @RequestParam(value = "ram") int ram,
-//                             @RequestParam(value = "price") int price){
-//        String error = "";
-//        if(name.equals("")) error += "Laptop name can not be empty";
-//        if(ram < 0) error += "Laptop RAM not valid ";
-//        if(price < 0) error += "Laptop Price not valid";
-//        if(!error.equals("")) {
-//            modelMap.addAttribute("error", error);
-//            return  "error";
-//        }
-//
-//        try{
-//            laptopDAO.editLaptop(id, name, ram, price);
-//        }catch(SQLException e){
-//            System.out.print(e);
-//        }
-//        return "redirect:/";
-//    }
+
 }
