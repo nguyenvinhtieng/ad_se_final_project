@@ -67,7 +67,10 @@ public class TaiKhoanDAO {
         stm = conn.createStatement();
         String sql = "SELECT * FROM TAIKHOAN WHERE TAIKHOAN = '"+userName+"'";
         resultSet = stm.executeQuery(sql);
-        return resultSet.getRow() == 0;
+        if(resultSet.next()){
+            return false;
+        }
+        return true;
     }
 
     public void taoTaiKhoan(String taiKhoan, String matKhau, String role) throws  SQLException{

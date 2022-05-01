@@ -117,7 +117,7 @@
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                             <p class="text-gray-900 whitespace-no-wrap">
-                                                                ${c.getNamVaoTruong()}
+                                                                ${c.getTenNamHoc()}
                                                             </p>
                                                         </td>
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -126,7 +126,8 @@
                                                                 data-idphong="${c.getIdPhongHoc()}"
                                                                 data-tenlop="${c.getTenLop()}"
                                                                 data-khoi="${c.getKhoi()}"
-                                                                data-namvaotruong="${c.getNamVaoTruong()}"
+                                                                data-idnamhoc="${c.getIdNamHoc()}"
+                                                                data-tennamhoc="${c.getTenNamHoc()}"
                                                                 class="inline-block cursor-pointer edit text-gray-400 hover:text-gray-100 ml-2">
                                                                 <i class="material-icons-round text-base">edit</i>
                                                                 </a>
@@ -218,7 +219,7 @@
             const idEdit = document.querySelector(".id-edit")
             const gradeEdit = document.querySelector(".grade-edit")
             const roomEdit = document.querySelector(".room-edit")
-            const namvaotruongEdit = document.querySelector(".namvaotruong-edit")
+            const namhocEdit = document.querySelector(".namhoc-edit")
             const idEditView = document.querySelector(".id-edit-view")
             function setDataToEditModal(item) {
                 idEdit.value = item.getAttribute("data-id")
@@ -228,7 +229,8 @@
                 gradeEdit.innerHTML = item.getAttribute("data-khoi")
                 gradeEdit.value = item.getAttribute("data-khoi")
                 nameEdit.value = item.getAttribute("data-tenlop")
-                namvaotruongEdit.value = item.getAttribute("data-namvaotruong")
+                namhocEdit.value = item.getAttribute("data-idnamhoc")
+                namhocEdit.innerHTML = item.getAttribute("data-tennamhoc")
             }
         </script>
     </body>

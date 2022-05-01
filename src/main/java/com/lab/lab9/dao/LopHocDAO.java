@@ -24,17 +24,21 @@ public class LopHocDAO {
     public List<LopHoc> getALlLopHoc() throws SQLException {
         List<LopHoc> lopHoc = new ArrayList<>();
         stm = conn.createStatement();
-        String sql = "SELECT * FROM LOP LEFT JOIN PHONGHOC ON LOP.IDPHONGHOC = PHONGHOC.IDPHONGHOC";
+        String sql = "SELECT *, LOP.IDPHONGHOC AS IDPHONGHOCLOP FROM " +
+                "LOP LEFT JOIN PHONGHOC ON LOP.IDPHONGHOC = PHONGHOC.IDPHONGHOC " +
+                "LEFT JOIN NAMHOC ON LOP.IDNAMHOC = NAMHOC.IDNAMHOC";
         resultSet = stm.executeQuery(sql);
         while (resultSet.next()) {
             LopHoc l = new LopHoc(
                     resultSet.getInt("IDLOP"),
                     resultSet.getString("TENLOP"),
                     resultSet.getInt("KHOI"),
-                    resultSet.getInt("IDPHONGHOC"),
-                    resultSet.getInt("NAMVAOTRUONG"),
-                    resultSet.getString("TENPHONGHOC")
+                    resultSet.getInt("IDPHONGHOCLOP"),
+                    resultSet.getInt("IDNAMHOC"),
+                    resultSet.getString("TENPHONGHOC"),
+                    resultSet.getString("TENNAMHOC")
             );
+            System.out.println(l.toString());
             lopHoc.add(l);
         }
         return lopHoc;
@@ -49,23 +53,19 @@ public class LopHocDAO {
                     resultSet.getString("TENLOP"),
                     resultSet.getInt("KHOI"),
                     resultSet.getInt("IDPHONGHOC"),
-                    resultSet.getInt("NAMVAOTRUONG")
+                    resultSet.getInt("IDNAMHOC")
             );
-            System.out.println("== FUNC layLopHoc ==");
-            System.out.println(l.toString());
-            System.out.println("== == ==");
             return l;
         }
-        System.out.println("Here");
         return new LopHoc();
     }
-    public void taoLopHoc(String tenLopHoc, String khoi, String idPhongHoc, String namVaoTruong) throws SQLException{
+    public void taoLopHoc(String tenLopHoc, String khoi, String idPhongHoc, String idNamHoc) throws SQLException{
         String sql = "INSERT INTO LOP VALUES(?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, tenLopHoc);
         ps.setInt(2, Integer.parseInt(khoi));
         ps.setInt(3, Integer.parseInt(idPhongHoc));
-        ps.setInt(4, Integer.parseInt(namVaoTruong));
+        ps.setInt(4, Integer.parseInt(idNamHoc));
         ps.execute();
         ps.close();
     }
@@ -77,14 +77,14 @@ public class LopHocDAO {
         ps.execute();
         ps.close();
     }
-    public void suaLopHoc(String tenLopHoc, String khoi, String idPhongHoc, String namVaoTruong, String idLop) throws SQLException{
+    public void suaLopHoc(String tenLopHoc, String khoi, String idPhongHoc, String idNamHoc, String idLop) throws SQLException{
         int idPhong = Integer.parseInt(idPhongHoc);
-        String sql = "UPDATE LOP SET TENLOP = ?, KHOI = ?, IDPHONGHOC = ?, NAMVAOTRUONG= ? WHERE IDLOP = ?";
+        String sql = "UPDATE LOP SET TENLOP = ?, KHOI = ?, IDPHONGHOC = ?, IDNAMHOC= ? WHERE IDLOP = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, tenLopHoc);
         ps.setInt(2, Integer.parseInt(khoi));
         ps.setInt(3, Integer.parseInt(idPhongHoc));
-        ps.setInt(4, Integer.parseInt(namVaoTruong));
+        ps.setInt(4, Integer.parseInt(idNamHoc));
         ps.setInt(5, Integer.parseInt(idLop));
         ps.executeUpdate();
         ps.close();

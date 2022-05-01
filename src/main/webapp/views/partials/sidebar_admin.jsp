@@ -48,6 +48,20 @@
                         </a>
                     </li>
                     <li>
+                        <a href="/admin/gvcn" class=" text-base text-gray-600 font-normal rounded-lg flex items-center p-2
+                            hover:bg-gray-100 group">
+                            <ion-icon name="people-circle"></ion-icon>
+                            <span class="ml-3">GVCN</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/subject-teacher" class=" text-base text-gray-600 font-normal rounded-lg flex items-center p-2
+                            hover:bg-gray-100 group">
+                            <ion-icon name="people-circle"></ion-icon>
+                            <span class="ml-3">Subject Teacher</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="/admin/notify"
                             class="text-base text-gray-600 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                             <ion-icon name="notifications"></ion-icon>

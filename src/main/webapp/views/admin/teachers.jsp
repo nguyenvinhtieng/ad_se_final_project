@@ -30,7 +30,6 @@
                                             +</button>
                                     </div>
                                 </div>
-
                             </div>
                             <div>
                                 <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -99,7 +98,6 @@
                                                                 ${teacher.getStatus()}
                                                             </span>
                                                         </td>
-
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                             <p data-id="${teacher.getIdGiaoVien()}"
                                                                 data-name="${teacher.getName()}"
@@ -229,8 +227,6 @@
             btnAdd.addEventListener("click", (e) => openModal(modalCreate))
             const viewContent = document.querySelector(".view-content")
             function setContentViewModal(item) {
-                console.log(item);
-                console.log(item.getAttribute("data-avatar"));
                 let imgSource = "/images/" + item.getAttribute("data-avatar")
 
                 viewContent.innerHTML = `<div class="flex flex-col items-center justify-center bg-white p-4 shadow rounded-lg">

@@ -49,6 +49,34 @@ public class GiaoVienDAO {
         return teachers;
     }
 
+    public List<GiaoVien> getAllTeacherAvtice() throws SQLException {
+        List<GiaoVien> teachers = new ArrayList<>();
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM GIAOVIEN WHERE TRANGTHAI = 'ACTIVE'";
+        resultSet = stm.executeQuery(sql);
+        while(resultSet.next()) {
+            GiaoVien gv = new GiaoVien(
+                    resultSet.getString("IDGV"),
+                    resultSet.getString("TENGV"),
+                    resultSet.getString("CMND"),
+                    resultSet.getString("NGAYSINH"),
+                    resultSet.getString("GIOITINH"),
+                    resultSet.getString("QUEQUAN"),
+                    resultSet.getString("DANTOC"),
+                    resultSet.getString("HOKHAU"),
+                    resultSet.getString("SDT"),
+                    resultSet.getString("EMAIL"),
+                    resultSet.getString("LINKAVATAR"),
+                    resultSet.getString("TRANGTHAI")
+            );
+            teachers.add(gv);
+        }
+
+        resultSet.close();
+        stm.close();
+        return teachers;
+    }
+
     public void themGiaoVien(String id, String name, String identity, String date, String sex, String originalplace, String nation, String household, String phone, String email, String avatar) throws SQLException{
         String sql = "INSERT INTO GIAOVIEN VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = conn.prepareStatement(sql);

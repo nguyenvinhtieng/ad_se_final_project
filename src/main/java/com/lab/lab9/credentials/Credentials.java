@@ -9,7 +9,7 @@ public class Credentials {
     private String dbName = "SCHOOL";
     public Credentials() {
         this.url = "jdbc:sqlserver://localhost;databaseName=" + dbName;
-        this.userName = "vinhtieng";
+        this.userName = "sa";
         this.passWord = "vinhtieng";
     }
 

@@ -44,11 +44,17 @@
 
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-normal mb-2" for="username">
-                                Nam Vao Truong
+                                Nam Hoc
                             </label>
-                            <input type="number" min="2000"
+                            <select
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                name="namVaoTruong" v-model="form.email" required autofocus />
+                                name="idNamHoc" v-model="form.email" required autofocus>
+                                <option value="">--Choose School year--</option>
+                                <c:forEach items="${namhoc}" var="nh">
+                                    <option value="${nh.getIdNamHoc()}">${nh.getTenNamHoc()}
+                                    </option>
+                                </c:forEach>
+                            </select>
                         </div>
                     </div>
                     <!--Footer-->
