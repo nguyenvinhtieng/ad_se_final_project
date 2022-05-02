@@ -85,7 +85,7 @@
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                             <span class="px-2 py-1 font-semibold leading-tight rounded-sm
                                                                 <c:choose>
-                                                                    <c:when test=" ${teacher.getStatus()=='ACTIVE' }">
+                                                                    <c:when test="${teacher.getStatus()=='ACTIVE' }">
                                                                 text-blue-700 bg-blue-100
                                                                 <br />
                                                                 </c:when>

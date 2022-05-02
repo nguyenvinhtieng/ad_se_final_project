@@ -14,7 +14,7 @@ public class HocSinh {
     private int idLop;
     private String tenLop;
 
-    public HocSinh(String idHocSinh, String tenHocSinh, String ngaySinh, String gioiTinh, String queQuan, String danToc, String hoKhau, String sdtPhuHuynh, String linkAvatar, String trangThai, int idLop, String tenLop) {
+    public HocSinh(String idHocSinh, String tenHocSinh, String ngaySinh, String gioiTinh, String queQuan, String danToc, String hoKhau, String sdtPhuHuynh, String linkAvatar, String trangThai) {
         this.idHocSinh = idHocSinh;
         this.tenHocSinh = tenHocSinh;
         this.ngaySinh = ngaySinh;
@@ -25,8 +25,6 @@ public class HocSinh {
         this.sdtPhuHuynh = sdtPhuHuynh;
         this.linkAvatar = linkAvatar;
         this.trangThai = trangThai;
-        this.idLop = idLop;
-        this.tenLop = tenLop;
     }
 
     public String getIdHocSinh() {
@@ -67,13 +65,5 @@ public class HocSinh {
 
     public String getTrangThai() {
         return trangThai;
-    }
-
-    public int getIdLop() {
-        return idLop;
-    }
-
-    public String getTenLop() {
-        return tenLop;
     }
 }

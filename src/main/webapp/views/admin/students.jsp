@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <div class="lg:ml-40 ml-10 space-x-8">
-                                        <button id="btn-add-sem"
+                                        <button id="btn-add-student"
                                             class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">Add
                                             +</button>
                                     </div>
@@ -45,10 +45,6 @@
                                                     </th>
                                                     <th
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                        Avatar
-                                                    </th>
-                                                    <th
-                                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                         Name
                                                     </th>
                                                     <th
@@ -57,9 +53,8 @@
                                                     </th>
                                                     <th
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                        Sex
+                                                        Gender
                                                     </th>
-
                                                     <th
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                         Status
@@ -79,13 +74,6 @@
                                                                     <p class="text-gray-900 whitespace-no-wrap">
                                                                         ${student.getIdHocSinh()}
                                                                     </p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <div class="flex items-center">
-                                                                <div class="ml-3">
-                                                                    <img src="${student.getLinkAvatar()}" alt="">
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -120,7 +108,7 @@
                                                             <span class="px-2 py-1 font-semibold leading-tight rounded-sm
                                                                 <c:choose>
                                                                     <c:when
-                                                                    test=" ${student.getTrangThai()=='ACTIVE' }">
+                                                                    test="${student.getTrangThai()=='ACTIVE' }">
                                                                 text-blue-700 bg-blue-100
                                                                 <br />
                                                                 </c:when>
@@ -133,16 +121,34 @@
                                                                 ${student.getTrangThai()}
                                                             </span>
                                                         </td>
+
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <p data-id=" ${hk.getIdHocKy()}"
-                                                                class="inline-block cursor-pointer delete text-gray-400 hover:text-gray-100 ml-2">
+                                                            <p data-id="${student.getIdHocSinh()}"
+                                                                data-name="${student.getTenHocSinh()}"
+                                                                data-date="${student.getNgaySinh()}"
+                                                                data-sex="${student.getGioiTinh()}"
+                                                                data-originalplace="${student.getQueQuan()}"
+                                                                data-status="${student.getTrangThai()}"
+                                                                data-phone="${student.getSdtPhuHuynh()}"
+                                                                data-avatar="${student.getLinkAvatar()}"
+                                                                data-nation="${student.getDanToc()}"
+                                                                data-household="${student.getHoKhau()}"
+                                                                class="inline-block cursor-pointer view text-gray-400 hover:text-gray-100 ml-2">
                                                                 <i class="material-icons-round text-base">visibility</i>
-                                                            </p>
-                                                            <p
+                                                                </a>
+                                                            <p data-id="${student.getIdHocSinh()}"
+                                                                data-name="${student.getTenHocSinh()}"
+                                                                data-date="${student.getNgaySinh()}"
+                                                                data-sex="${student.getGioiTinh()}"
+                                                                data-originalplace="${student.getQueQuan()}"
+                                                                data-status="${student.getTrangThai()}"
+                                                                data-phone="${student.getSdtPhuHuynh()}"
+                                                                data-avatar="${student.getLinkAvatar()}"
+                                                                data-nation="${student.getDanToc()}"
+                                                                data-household="${student.getHoKhau()}"
                                                                 class="edit cursor-pointer inline-block text-gray-400 hover:text-gray-100 mx-2">
                                                                 <i class="material-icons-outlined text-base">edit</i>
                                                             </p>
-
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -171,12 +177,123 @@
                         </div>
                     </main>
                     <jsp:include page="../partials/footer.jsp" />
+                    <jsp:include page="../partials/modals/add_student.jsp" />
+                    <jsp:include page="../partials/modals/edit_student.jsp" />
+                    <jsp:include page="../partials/modals/view_student.jsp" />
                 </div>
             </div>
         </div>
         <script>
+            const btnAdd = document.getElementById('btn-add-student')
+
+            const modalCreate = document.querySelector(".main-modal-create")
+            const closeButtonCreate = document.querySelectorAll(".modal-close-create")
+            const modalEdit = document.querySelector(".main-modal-edit")
+            const closeButtonEdit = document.querySelectorAll(".modal-close-edit")
+            const modalView = document.querySelector(".main-modal-view")
+            const closeButtonView = document.querySelectorAll(".modal-close-view")
+
+            const edits = document.querySelectorAll(".edit")
+            const views = document.querySelectorAll(".view")
+
+            const idEdit = document.querySelector('.id-edit')
+            const nameEdit = document.querySelector('.name-edit')
+            const dateEdit = document.querySelector('.date-edit')
+            const sexEdit = document.querySelector('.sex-edit')
+            const statusEdit = document.querySelector('.status-edit')
+            const originalplaceEdit = document.querySelector('.originalplace-edit')
+            const nationEdit = document.querySelector('.nation-edit')
+            const householdEdit = document.querySelector('.household-edit')
+            const phoneEdit = document.querySelector('.phone-edit')
+            const avatarEdit = document.querySelector('.avatar-edit')
+
+            initModal([
+                { modal: modalCreate, closeButtons: closeButtonCreate },
+                { modal: modalEdit, closeButtons: closeButtonEdit },
+                { modal: modalView, closeButtons: closeButtonView }
+            ]);
+            edits.forEach(item => {
+                item.addEventListener("click", (e) => {
+                    openModal(modalEdit)
+                    setContentEditModal(item)
+                })
+            })
+            views.forEach(item => {
+                item.addEventListener("click", (e) => {
+                    openModal(modalView)
+                    setContentViewModal(item)
+                })
+            })
+
+            function setContentEditModal(item) {
+                idEdit.value = item.getAttribute("data-id")
+                nameEdit.value = item.getAttribute("data-name")
+                dateEdit.value = item.getAttribute("data-date")
+                //statusEdit.innerHTML = item.getAttribute("data-status")
+                sexEdit.value = item.getAttribute("data-sex")
+                sexEdit.innerHTML = item.getAttribute("data-sex")
+                originalplaceEdit.value = item.getAttribute("data-originalplace")
+                nationEdit.value = item.getAttribute("data-nation")
+                householdEdit.value = item.getAttribute("data-household")
+                phoneEdit.value = item.getAttribute("data-phone")
+                //avatarEdit.value = item.getAttribute("data-avatar")
+            }
+
+            btnAdd.addEventListener("click", (e) => openModal(modalCreate))
+            const viewContent = document.querySelector(".view-content")
+            function setContentViewModal(item) {
+                let imgSource = "/images/" + item.getAttribute("data-avatar")
+
+                viewContent.innerHTML = `<div class="flex flex-col items-center justify-center bg-white p-4 shadow rounded-lg">
+                    <div class="avatar inline-flex shadow-lg border border-gray-200 rounded-full overflow-hidden max-h-20 max-w-20">
+                        <img src="`+ imgSource + `"
+                            alt="" class="object-cover h-full w-full ">
+                    </div>
+
+                    <h2 class="mt-4 font-bold text-xl">`+ item.getAttribute("data-name") + `</h2>
+                    <h6 class="mt-2 text-sm font-medium">Student</h6>
+
+                    <p class="text-xs text-gray-500 text-center mt-3 w-full">
+                        =============================================</br>
+                        <div class="line__data">
+                            <strong>Name: </strong>`+ item.getAttribute("data-name") + `</br></div>
+                        <div class="line__data">
+                            <strong>Date of birth: </strong>`+ item.getAttribute("data-date") + `</br></div>
+                        <div class="line__data">
+                            <strong>Gender: </strong>`+ item.getAttribute("data-sex") + `</br></div>
+                        <div class="line__data">
+                            <strong>Original place: </strong>`+ item.getAttribute("data-originalplace") + `</br></div>
+                        <div class="line__data">
+                            <strong>Nation: </strong>`+ item.getAttribute("data-nation") + `</br></div>
+                        <div class="line__data">
+                            <strong>Householder: </strong>`+ item.getAttribute("data-household") + `</br></div>
+                        <div class="line__data">
+                            <strong>Phone number: </strong>`+ item.getAttribute("data-phone") + `</br></div>
+                    </p>
+                </div>`
+            }
 
         </script>
+        <style>
+            .avatar {
+                max-width: 100px;
+                width: 100px;
+                max-height: 100px;
+                height: 100px;
+            }
+
+            .avatar img {
+                object-fit: cover;
+            }
+
+            .line__data {
+                padding: 2px 4px;
+                text-align: left;
+                justify-content: flex-start;
+                font-size: 16px;
+                width: 100%;
+            }
+        </style>
     </body>
 
     </html>
