@@ -24,11 +24,11 @@ public class HocSinhDAO {
     public List<HocSinh> getAllStudent() throws SQLException {
         List<HocSinh> hocsinh = new ArrayList<>();
         stm = conn.createStatement();
-        String sql = "SELECT * FROM HOCSINH, LOP WHERE HOCSINH.IDLOPHOC = LOP.IDLOP";
+        String sql = "SELECT * FROM HOCSINH";
         resultSet = stm.executeQuery(sql);
         while (resultSet.next()) {
             HocSinh hs = new HocSinh(
-                    resultSet.getString("MAHS"),
+                    resultSet.getString("IDHS"),
                     resultSet.getString("TENHS"),
                     resultSet.getString("NGAYSINH"),
                     resultSet.getString("GIOITINH"),
@@ -37,13 +37,12 @@ public class HocSinhDAO {
                     resultSet.getString("HOKHAU"),
                     resultSet.getString("SDTPHUHUYNH"),
                     resultSet.getString("LINKAVATAR"),
-                    resultSet.getString("TRANGTHAI"),
-                    resultSet.getInt("IDLOP"),
-                    resultSet.getString("TENLOP")
-
+                    resultSet.getString("TRANGTHAI")
             );
             hocsinh.add(hs);
         }
+        resultSet.close();
+        stm.close();
         return hocsinh;
     }
     public boolean checkIdStudent(String maHs) throws SQLException{
@@ -54,8 +53,8 @@ public class HocSinhDAO {
         return numberRow == 0;
     }
 
-    public void addStudent(String maHs, String ten, String ngaySinh, String gioiTinh, String queQuan, String danToc, String hoKhau, String sdtPhuHuynh, String linkAvatar, String idLop) throws SQLException {
-        String sql = "INSERT INTO HOCSINH VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+    public void addStudent(String maHs, String ten, String ngaySinh, String gioiTinh, String queQuan, String danToc, String hoKhau, String sdtPhuHuynh, String linkAvatar) throws SQLException {
+        String sql = "INSERT INTO HOCSINH VALUES(?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         String statusDefault = "ACTIVE";
         ps.setString(1, maHs);
@@ -68,13 +67,17 @@ public class HocSinhDAO {
         ps.setString(8, sdtPhuHuynh);
         ps.setString(9, linkAvatar);
         ps.setString(10, statusDefault);
-        ps.setInt(11, Integer.parseInt(idLop));
         ps.execute();
         ps.close();
     }
 
-    public void editStudent(String maHs, String ten, String ngaySinh, String gioiTinh, String queQuan, String danToc, String hoKhau, String sdtPhuHuynh, String linkAvatar, String idLop, String trangThai) throws SQLException {
-        String sql = "UPDATE HOCSINH SET TENHS = ?, NGAYSINH = ?, GIOITINH = ?, QUEQUAN= ?, DANTOC= ?, HOKHAU= ?, SDTPHUHUYNH= ?, LINKAVATAR= ?, TRANGTHAI= ?, IDLOPHOC= ? WHERE MAHS = ?";
+    public void editStudent(String maHs, String ten, String ngaySinh, String gioiTinh, String queQuan, String danToc, String hoKhau, String sdtPhuHuynh, String linkAvatar, String trangThai) throws SQLException {
+        String sql = "";
+        if(linkAvatar.trim().equals("")){
+            sql = "UPDATE HOCSINH SET TENHS = ?, NGAYSINH = ?, GIOITINH = ?, QUEQUAN= ?, DANTOC= ?, HOKHAU= ?, SDTPHUHUYNH= ?, TRANGTHAI= ? WHERE IDHS = ?";
+        }else{
+            sql = "UPDATE HOCSINH SET TENHS = ?, NGAYSINH = ?, GIOITINH = ?, QUEQUAN= ?, DANTOC= ?, HOKHAU= ?, SDTPHUHUYNH= ?, LINKAVATAR= ?, TRANGTHAI= ? WHERE IDHS = ?";
+        }
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, ten);
         ps.setString(2, ngaySinh);
@@ -83,10 +86,14 @@ public class HocSinhDAO {
         ps.setString(5, danToc);
         ps.setString(6, hoKhau);
         ps.setString(7, sdtPhuHuynh);
-        ps.setString(8, linkAvatar);
-        ps.setString(9, trangThai);
-        ps.setInt(10, Integer.parseInt(idLop));
-        ps.setString(11, maHs);
+        if(linkAvatar.trim().equals("")){
+            ps.setString(8, trangThai);
+            ps.setString(9, maHs);
+        }else{
+            ps.setString(8, linkAvatar);
+            ps.setString(9, trangThai);
+            ps.setString(10, maHs);
+        }
         ps.executeUpdate();
         ps.close();
     }

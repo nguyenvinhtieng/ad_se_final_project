@@ -669,6 +669,88 @@ public class AdminController {
         return  "admin/students";
     }
 
+    // POST [/admin/students] => Thêm học sinh
+    @RequestMapping(value="/students", method = RequestMethod.POST)
+    public String createClass(ModelMap modelMap,
+                              @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                              @RequestParam(value="id") String id,
+                              @RequestParam(value="name") String name,
+                              @RequestParam(value="date") String date,
+                              @RequestParam(value="sex") String sex,
+                              @RequestParam(value="originalplace") String originalplace,
+                              @RequestParam(value="nation") String nation,
+                              @RequestParam(value="household") String household,
+                              @RequestParam(value="phone") String phone,
+                              @RequestParam("avatar") MultipartFile avatar,
+                              HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException, IOException, NoSuchAlgorithmException {
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        String fileNameNew = GenerateId.getRandomString(10) + ".png";
+        UploadFile.saveFile(fileNameNew, avatar);
+        String hashPass = Hashing.hashPassword(id);
+        taiKhoanDAO = new TaiKhoanDAO();
+        boolean isValidAccount = taiKhoanDAO.kiemTraUsername(id);
+        if(!isValidAccount){
+            String toast = "error#Username/was/exists!#Error!";
+            Cookie cookie_toast = new Cookie("toast_message", toast);
+            cookie_toast.setPath("/admin/students");
+            response.addCookie(cookie_toast);
+            return  "redirect:/admin/students";
+        }
+        taiKhoanDAO.taoTaiKhoan(id, hashPass, "HOCSINH");
+        hocSinhDAO = new HocSinhDAO();
+        hocSinhDAO.addStudent(id, name, date, sex, originalplace, nation, household, phone, fileNameNew);
+        // hiển thị thoong baos
+        String toast = "success#Add/teacher/successfully!#Success!";
+        Cookie cookie_toast = new Cookie("toast_message", toast);
+        cookie_toast.setPath("/admin/students");
+        response.addCookie(cookie_toast);
+        return  "redirect:/admin/students";
+    }
+
+    // POST [/admin/students/edit] => Sửa Học Sinh
+    @RequestMapping(value="/students/edit", method = RequestMethod.POST)
+    public String editClass(ModelMap modelMap,
+                            @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                            @RequestParam(value="id") String id,
+                            @RequestParam(value="name") String name,
+                            @RequestParam(value="date") String date,
+                            @RequestParam(value="sex") String sex,
+                            @RequestParam(value="originalplace") String originalplace,
+                            @RequestParam(value="nation") String nation,
+                            @RequestParam(value="household") String household,
+                            @RequestParam(value="phone") String phone,
+                            @RequestParam("avatar") MultipartFile avatar,
+                            @RequestParam("status") String status,
+                            HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException, IOException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        long fileSize = avatar.getSize();
+        String fileNameNew = "";
+        if(fileSize > 0) {
+            fileNameNew = GenerateId.getRandomString(10) + ".png";
+            UploadFile.saveFile(fileNameNew, avatar);
+        }
+        hocSinhDAO = new HocSinhDAO();
+        hocSinhDAO.editStudent(id, name, date, sex, originalplace, nation, household, phone, fileNameNew, status);
+        // hiển thị thoong baos
+        String toast = "success#Edit/student/successfully!#Success!";
+        Cookie cookie_toast = new Cookie("toast_message", toast);
+        cookie_toast.setPath("/admin/students");
+        response.addCookie(cookie_toast);
+        return  "redirect:/admin/students";
+    }
+
+
+
+
+
     // ======================================
     // GET [/admin/teachers] => Hiển thị trang quản lý giáo viên
     @RequestMapping(value="/teachers", method = RequestMethod.GET)
@@ -700,6 +782,7 @@ public class AdminController {
         modelMap.addAttribute("teachers", giaovienDAO.getAllTeacher());
         return  "admin/teachers";
     }
+
 
     // POST [/admin/teachers] => Thêm giáo viên
     @RequestMapping(value="/teachers", method = RequestMethod.POST)
@@ -914,4 +997,6 @@ public class AdminController {
 
         return  redirectUrl;
     }
+
+
 }

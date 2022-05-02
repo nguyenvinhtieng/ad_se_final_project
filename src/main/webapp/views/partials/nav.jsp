@@ -24,7 +24,7 @@
                 <div action="#" method="GET" class="hidden lg:block lg:pl-32">
                     <label for="topbar-search" class="sr-only">Search</label>
                     <div class="mt-1 text-xl font-bold text-blue-500 relative ">
-                        School managerment System
+                        School management System
                     </div>
                 </div>
             </div>
