@@ -229,7 +229,7 @@
                 idEdit.value = item.getAttribute("data-id")
                 nameEdit.value = item.getAttribute("data-name")
                 dateEdit.value = item.getAttribute("data-date")
-                //statusEdit.innerHTML = item.getAttribute("data-status")
+                statusEdit.innerHTML = item.getAttribute("data-status")
                 sexEdit.value = item.getAttribute("data-sex")
                 sexEdit.innerHTML = item.getAttribute("data-sex")
                 originalplaceEdit.value = item.getAttribute("data-originalplace")
