@@ -5,11 +5,14 @@ import com.lab.lab9.models.TaiKhoan;
 import com.lab.lab9.utils.Hashing;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -39,6 +42,47 @@ public class MainController {
     public String logout(ModelMap modelMap){
 //        modelMap.addAttribute("error", "Khong vo loi");
 
+        // Xoa Cookie
+        return  "redirect:/login";
+    }
+    // Logout
+    @RequestMapping(value="/changepass", method = RequestMethod.POST)
+    public String changepass(ModelMap modelMap,
+                             @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                             @RequestParam(value = "currp") String currp,
+                             @RequestParam(value = "newp") String newp,
+                             @RequestParam(value = "repeatp") String repeatp,
+                             HttpServletRequest req,
+                             HttpServletResponse resp) throws SQLException, IOException, ClassNotFoundException {
+//        modelMap.addAttribute("error", "Khong vo loi");
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        String toast = "";
+        // validation
+        if(!newp.equals(repeatp)){
+            toast = "error#Repeat/password/not/correct!#Error!";
+        }
+        if(newp.length() < 8){
+            toast = "error#Password/must/more/than/8/characters!#Error!";
+        }
+        accountDAO = new TaiKhoanDAO();
+        TaiKhoan taikhoan = accountDAO.getUserData(usernameCookie);
+        boolean validPass = Hashing.checkPassword(currp,taikhoan.getPassword());
+        if(!validPass){
+            toast = "error#Current/password/is/not/correct!#Error!";
+        }
+        if(!toast.equals("")){
+            Cookie cookie_toast = new Cookie("toast_message", toast);
+            cookie_toast.setPath(req.getContextPath());
+            resp.addCookie(cookie_toast);
+//            RequestDispatcher dd = request.getRequestDispatcher("error.jsp");
+//
+//            dd.forward(request, response);
+//            resp.sendRedirect(req.getContextPath() + "/redirected");
+//            return  "redirect:back";
+        }
+        System.out.println("URL: " + req.getContextPath());
         // Xoa Cookie
         return  "redirect:/login";
     }
@@ -94,6 +138,7 @@ public class MainController {
             return "redirect:/admin/home";
         }
         if(taikhoan.getRole().equals("HOCSINH")){
+
             return "redirect:/student/home";
         }
         if(taikhoan.getRole().equals("GIAOVIEN")){

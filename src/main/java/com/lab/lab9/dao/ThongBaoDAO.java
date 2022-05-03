@@ -41,6 +41,34 @@ public class ThongBaoDAO {
         stm.close();
         return notifies;
     }
+    public List<ThongBao> getTenNotify(String page, String cate, String title) throws SQLException{
+        List<ThongBao> notifies = new ArrayList<>();
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM THONGBAO, LOAITHONGBAO WHERE THONGBAO.IDLOAITHONGBAO = LOAITHONGBAO.IDLOAITHONGBAO";
+        if(!cate.equals("")){
+            sql += " AND LOAITHONGBAO.IDLOAITHONGBAO = " + cate;
+        }
+        if(!title.equals("")){
+            sql += " AND THONGBAO.TIEUDE LIKE '%"+title+"%'";
+        }
+        int from = Integer.parseInt(page) * 10;
+        sql += " ORDER BY (SELECT NULL) OFFSET "+ from +" ROWS FETCH NEXT 10 ROWS ONLY";
+        resultSet = stm.executeQuery(sql);
+        while(resultSet.next()) {
+            ThongBao tb = new ThongBao(
+                    resultSet.getInt("IDTHONGBAO"),
+                    resultSet.getString("TIEUDE"),
+                    resultSet.getString("NOIDUNG"),
+                    resultSet.getString("NGAYDANG"),
+                    resultSet.getInt("IDLOAITHONGBAO"),
+                    resultSet.getString("TEN"));
+            notifies.add(tb);
+        }
+
+        resultSet.close();
+        stm.close();
+        return notifies;
+    }
 
     public void createNotify(String tieuDe, String noiDung, String idLoaiThongBao, String ngayTao)  throws SQLException {
         String sql = "INSERT INTO THONGBAO VALUES(?, ?, ?, ?)";
@@ -62,7 +90,7 @@ public class ThongBaoDAO {
         ps.close();
     }
 	
-	public List<ThongBao> detailNotify(int idThongBao) throws SQLException{
+	public ThongBao detailNotify(int idThongBao) throws SQLException{
     	//ThongBao tb = null;
     	List<ThongBao> notifies = new ArrayList<>();
     	stm = conn.createStatement();
@@ -75,11 +103,11 @@ public class ThongBaoDAO {
                     resultSet.getString("NOIDUNG"),
                     resultSet.getString("NGAYDANG"),
                     resultSet.getInt("IDLOAITHONGBAO"));
-            notifies.add(tb);
+            return tb;
         }
         resultSet.close();
         stm.close();
-        return notifies;
+        return new ThongBao();
     }
 
 }

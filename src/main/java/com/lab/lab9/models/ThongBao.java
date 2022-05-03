@@ -8,6 +8,9 @@ public class ThongBao {
     private int IdLoaiThongBao;
     private String TenLoaiThongBao;
 
+    public ThongBao() {
+    }
+
     public ThongBao(int idThongBao, String tieuDe, String noiDung, String ngayDang, int idLoaiThongBao) {
         IdThongBao = idThongBao;
         TieuDe = tieuDe;

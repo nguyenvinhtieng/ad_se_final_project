@@ -14,6 +14,9 @@ public class HocSinh {
     private int idLop;
     private String tenLop;
 
+    public HocSinh() {
+    }
+
     public HocSinh(String idHocSinh, String tenHocSinh, String ngaySinh, String gioiTinh, String queQuan, String danToc, String hoKhau, String sdtPhuHuynh, String linkAvatar, String trangThai) {
         this.idHocSinh = idHocSinh;
         this.tenHocSinh = tenHocSinh;

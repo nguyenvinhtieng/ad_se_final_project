@@ -1,6 +1,7 @@
 package com.lab.lab9.controllers;
 
 
+import com.lab.lab9.dao.HocSinhDAO;
 import com.lab.lab9.dao.LoaiThongBaoDAO;
 import com.lab.lab9.dao.ThongBaoDAO;
 import org.springframework.stereotype.Controller;
@@ -32,36 +33,38 @@ public class StudentController {
         return  "student/home";
     }
 
-    // GET [/student/notify] => Hiển thị trang thông báo
-    @RequestMapping(value="/notify", method = RequestMethod.GET)
+    // GET [/student/notification] => Hiển thị trang thông báo
+    @RequestMapping(value="/notification", method = RequestMethod.GET)
     public String showNotifyPage(ModelMap modelMap,
                                  @CookieValue(value = "username", defaultValue = "") String usernameCookie,
                                  @CookieValue(value = "toast_message", defaultValue = "") String toastMessage,
-                                 HttpServletResponse response
+                                 HttpServletResponse response,
+                                 @RequestParam(value = "page", defaultValue = "0") String page,
+                                 @RequestParam(value = "cate", defaultValue = "") String cate,
+                                 @RequestParam(value = "title", defaultValue = "") String title
     )  throws SQLException, ClassNotFoundException{
-        if(!toastMessage.equals("")){
-            Cookie cookie = new Cookie("toast_message", "");
-            cookie.setPath("/student/notify");
-            cookie.setMaxAge(-1);
-            response.addCookie(cookie);
-            System.out.println("TOAST MESSAGE => " + toastMessage);
-            String[] args = toastMessage.split("#");
-            String type = args[0];
-            String _message_ = args[1];
-            String title = args[2];
-            String message = String.join(" ", _message_.split("/"));
 
-            modelMap.addAttribute("type_toast", type);
-            modelMap.addAttribute("title_toast", title);
-            modelMap.addAttribute("message_toast", message);
-        }
         if(usernameCookie.equals("")){
             return "redirect:/login";
         }
+        int pageNumber = Integer.parseInt(page);
+        if(pageNumber < 0) {
+            page = "0";
+            pageNumber = 0;
+        }
+
         thongBaoDAO = new ThongBaoDAO();
         loaiThongBaoDAO = new LoaiThongBaoDAO();
+        modelMap.addAttribute("notifies", thongBaoDAO.getTenNotify(page, cate, title));
+        modelMap.addAttribute("page", page);
 
-        modelMap.addAttribute("notifies", thongBaoDAO.getAllNotify());
+        String textPag = "?cate="+cate+"&title="+title+"&page=";
+        String textPrev = textPag + String.valueOf(pageNumber <= 0 ? 0 : pageNumber - 1);
+        String textNext = textPag + String.valueOf(pageNumber + 1);
+
+        modelMap.addAttribute("prevpage", textPrev);
+        modelMap.addAttribute("nextpage", textNext);
+
         modelMap.addAttribute("types", loaiThongBaoDAO.getAllType());
         return  "student/notify";
     }
@@ -80,5 +83,22 @@ public class StudentController {
         thongBaoDAO = new ThongBaoDAO();
         modelMap.addAttribute("notifies_detail", thongBaoDAO.detailNotify(notify_id));
         return  "student/notify_detail";
+    }
+
+    // GET [/student/profile] => Hiển thị trang thong tin hoc sinh
+    @RequestMapping(value="/profile", method = RequestMethod.GET)
+    public String showProfile(ModelMap modelMap,
+                                       @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                                       HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        HocSinhDAO hocSinhDAO = new HocSinhDAO();
+
+        modelMap.addAttribute("student", hocSinhDAO.getHocSinhData(usernameCookie));
+
+        return  "student/profile";
     }
 }

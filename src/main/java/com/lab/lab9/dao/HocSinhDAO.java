@@ -45,6 +45,30 @@ public class HocSinhDAO {
         stm.close();
         return hocsinh;
     }
+
+    public HocSinh getHocSinhData(String username) throws SQLException {
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM HOCSINH WHERE IDHS = '"+username+"'";
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            HocSinh hs = new HocSinh(
+                    resultSet.getString("IDHS"),
+                    resultSet.getString("TENHS"),
+                    resultSet.getString("NGAYSINH"),
+                    resultSet.getString("GIOITINH"),
+                    resultSet.getString("QUEQUAN"),
+                    resultSet.getString("DANTOC"),
+                    resultSet.getString("HOKHAU"),
+                    resultSet.getString("SDTPHUHUYNH"),
+                    resultSet.getString("LINKAVATAR"),
+                    resultSet.getString("TRANGTHAI")
+            );
+            return hs;
+        }
+        resultSet.close();
+        stm.close();
+        return new HocSinh();
+    }
     public boolean checkIdStudent(String maHs) throws SQLException{
         String sql = "SELECT * FROM HOCSINH WHERE MAHS = '" + maHs + "'";
         resultSet = stm.executeQuery(sql);
