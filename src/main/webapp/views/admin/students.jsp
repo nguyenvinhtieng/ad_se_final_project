@@ -108,7 +108,7 @@
                                                             <span class="px-2 py-1 font-semibold leading-tight rounded-sm
                                                                 <c:choose>
                                                                     <c:when
-                                                                    test="${student.getTrangThai()=='ACTIVE' }">
+                                                                    test=" ${student.getTrangThai()=='ACTIVE' }">
                                                                 text-blue-700 bg-blue-100
                                                                 <br />
                                                                 </c:when>

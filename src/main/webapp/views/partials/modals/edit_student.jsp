@@ -92,15 +92,15 @@
                                 name="avatar" v-model="form.email" autofocus />
                         </div>
                         <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-normal mb-2" for="avatar">
+                            <label class="block text-gray-700 text-sm font-normal mb-2" for="status">
                                 Status
                             </label>
                             <select
-                                class="avatar-edit shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                name="status" v-model="form.email" autofocus >
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                name="status" required autofocus>
                                 <option value="" class="status-edit"></option>
                                 <option value="ACTIVE">ACTIVE</option>
-                                <option value="INACTIVE">INACTIVE</option>
+                                <option value="NOT ACTIVE">NOT ACTIVE</option>
                             </select>
                         </div>
                     </div>
