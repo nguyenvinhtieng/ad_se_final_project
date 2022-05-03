@@ -704,7 +704,7 @@ public class AdminController {
         hocSinhDAO = new HocSinhDAO();
         hocSinhDAO.addStudent(id, name, date, sex, originalplace, nation, household, phone, fileNameNew);
         // hiển thị thoong baos
-        String toast = "success#Add/teacher/successfully!#Success!";
+        String toast = "success#Add/student/successfully!#Success!";
         Cookie cookie_toast = new Cookie("toast_message", toast);
         cookie_toast.setPath("/admin/students");
         response.addCookie(cookie_toast);
@@ -746,11 +746,7 @@ public class AdminController {
         response.addCookie(cookie_toast);
         return  "redirect:/admin/students";
     }
-
-
-
-
-
+    
     // ======================================
     // GET [/admin/teachers] => Hiển thị trang quản lý giáo viên
     @RequestMapping(value="/teachers", method = RequestMethod.GET)

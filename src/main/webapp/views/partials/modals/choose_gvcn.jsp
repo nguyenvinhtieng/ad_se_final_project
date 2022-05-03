@@ -19,7 +19,7 @@
                     </div>
                     <!--Body-->
                     <div class="my-5">
-                        <input
+                        <input type="hidden"
                             class="class-edit shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             name="class" v-model="form.email" required autofocus />
                         <div class="mb-4">
