@@ -34,7 +34,7 @@
                                         <c:forEach items="${classes}" var="c">
                                             <c:choose>
                                                 <c:when test="${c.getKhoi() == grade}">
-                                                    <a href="/admin/subject-teacher/detail?classid=${c.getIdLop()}"
+                                                    <a href="/admin/tkb-detail?classid=${c.getIdLop()}&idnamhoc=${c.getIdNamHoc()}"
                                                         class="class__item">
                                                         <div class="class__name">${c.getTenLop()}</div>
                                                         <div class="class__hk">${c.getTenNamHoc()}</div>

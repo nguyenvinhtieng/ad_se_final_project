@@ -51,7 +51,14 @@
                         <a href="/admin/gvcn" class=" text-base text-gray-600 font-normal rounded-lg flex items-center p-2
                             hover:bg-gray-100 group">
                             <ion-icon name="people-circle"></ion-icon>
-                            <span class="ml-3">GVCN</span>
+                            <span class="ml-3">Head Teacher</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/tkb" class=" text-base text-gray-600 font-normal rounded-lg flex items-center p-2
+                            hover:bg-gray-100 group">
+                            <ion-icon name="people-circle"></ion-icon>
+                            <span class="ml-3">TKB</span>
                         </a>
                     </li>
                     <li>

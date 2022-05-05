@@ -38,6 +38,15 @@ public class NamHocDAO {
         }
         return namhoc;
     }
+    public String layTenNamHoc(String idNamHoc) throws  SQLException {
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM NAMHOC WHERE IDNAMHOC = " + idNamHoc;
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            return resultSet.getString("TENNAMHOC");
+        }
+        return "";
+    }
 
     public void taoNamHoc(String tenNamHoc, String ngayBatDau, String ngayKetThuc) throws SQLException{
         String sql = "INSERT INTO NAMHOC VALUES(?, ?, ?, ?)";

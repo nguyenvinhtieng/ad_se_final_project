@@ -2,6 +2,7 @@ package com.lab.lab9.dao;
 
 import com.lab.lab9.credentials.Credentials;
 import com.lab.lab9.models.HocKy;
+import com.lab.lab9.models.LopHoc;
 import com.lab.lab9.models.NamHoc;
 
 import java.sql.*;
@@ -25,6 +26,34 @@ public class HocKyDAO {
         List<HocKy> hocky = new ArrayList<>();
         stm = conn.createStatement();
         String sql = "SELECT * FROM HOCKY, NAMHOC WHERE HOCKY.IDNAMHOC = NAMHOC.IDNAMHOC";
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            HocKy hk = new HocKy(
+                    resultSet.getInt("IDHOCKY"),
+                    resultSet.getString("TENHOCKY"),
+                    resultSet.getString("NGAYBATDAU"),
+                    resultSet.getString("NGAYKETTHUC"),
+                    resultSet.getString("TRANGTHAI"),
+                    resultSet.getInt("IDNAMHOC"),
+                    resultSet.getString("TENNAMHOC")
+            );
+            hocky.add(hk);
+        }
+        return hocky;
+    }
+    public String layTenHocKy(String idHocKy) throws SQLException{
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM HOCKY WHERE IDHOCKY = " + idHocKy;
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            return resultSet.getString("TENHOCKY");
+        }
+        return "";
+    }
+    public List<HocKy> getAllHocKyOfSemester(int idNamHoc) throws SQLException {
+        List<HocKy> hocky = new ArrayList<>();
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM HOCKY, NAMHOC WHERE HOCKY.IDNAMHOC = NAMHOC.IDNAMHOC AND NAMHOC.IDNAMHOC = " + idNamHoc;
         resultSet = stm.executeQuery(sql);
         while (resultSet.next()) {
             HocKy hk = new HocKy(

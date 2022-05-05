@@ -107,7 +107,6 @@ public class MainController {
 
         // Lấy thông tin của user
         TaiKhoan taikhoan = accountDAO.getUserData(username);
-        System.out.println("Pass" + taikhoan.getPassword());
         // Role = "" => Tài khoản đăng nhập không đúng
         if(taikhoan.getRole().equals("")){
             modelMap.addAttribute("error", "Invalid Username or Password!");

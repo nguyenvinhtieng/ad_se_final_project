@@ -1,10 +1,7 @@
 package com.lab.lab9.controllers;
 
 import com.lab.lab9.dao.*;
-import com.lab.lab9.models.LoaiThongBao;
-import com.lab.lab9.models.LopHoc;
-import com.lab.lab9.models.PhongHoc;
-import com.lab.lab9.models.ThongBao;
+import com.lab.lab9.models.*;
 import com.lab.lab9.utils.GenerateId;
 import com.lab.lab9.utils.Hashing;
 import com.lab.lab9.utils.UploadFile;
@@ -48,6 +45,8 @@ public class AdminController {
     private GVCNDAO gvcnDAO;
     private MonHocDAO monHocDAO;
     private GiaoVienMonHocDAO giaoVienMonHocDAO;
+    private BuoiThuTietDAO buoiThuTietDAO;
+    private TkbDAO tkbDAO;
     // GET [/admin/home] => Hiển thị trang chủ admin
     @RequestMapping(value="/home", method = RequestMethod.GET)
     public String showHomePage(ModelMap modelMap,
@@ -992,6 +991,135 @@ public class AdminController {
         }
 
         return  redirectUrl;
+    }
+
+    // GET [/admin/tkb] => Hiển thị trang tkb
+    @RequestMapping(value="/tkb", method = RequestMethod.GET)
+    public String showTkbListClass(ModelMap modelMap,
+                                     @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                                     @CookieValue(value = "toast_message", defaultValue = "") String toastMessage,
+                                     HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        int[] grades = {10, 11, 12};
+        lopHocDAO = new LopHocDAO();
+        modelMap.addAttribute("grades", grades);
+        modelMap.addAttribute("classes", lopHocDAO.getALlLopHoc());
+        return  "admin/tkb";
+    }
+
+    // GET [/admin/tkb-detail] => Hiển thị trang tkb
+    @RequestMapping(value="/tkb-detail", method = RequestMethod.GET)
+    public String showTkbDetailForClass(ModelMap modelMap,
+                                   @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                                   @CookieValue(value = "toast_message", defaultValue = "") String toastMessage,
+                                   @RequestParam(value = "classid", defaultValue = "0") String classId,
+                                   @RequestParam(value = "idnamhoc", defaultValue = "0") String idNamHoc,
+                                   @RequestParam(value = "idhocky", defaultValue = "0") String idHocKy,
+                                   HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        if(!toastMessage.equals("")){
+            Cookie cookie = new Cookie("toast_message", "");
+            cookie.setPath("/admin/tkb-detail");
+            cookie.setMaxAge(-1);
+            response.addCookie(cookie);
+            String[] args = toastMessage.split("#");
+            String type = args[0];
+            String _message_ = args[1];
+            String title = args[2];
+            String message = String.join(" ", _message_.split("/"));
+
+            modelMap.addAttribute("type_toast", type);
+            modelMap.addAttribute("title_toast", title);
+            modelMap.addAttribute("message_toast", message);
+        }
+        hocKyDAO = new HocKyDAO();
+        lopHocDAO = new LopHocDAO();
+        namHocDAO = new NamHocDAO();
+        monHocDAO = new MonHocDAO();
+        buoiThuTietDAO = new BuoiThuTietDAO();
+        tkbDAO = new TkbDAO();
+
+        LopHoc l = lopHocDAO.layLopHoc(classId);
+        String titleHeader =
+                "Chon TKB Cho Lop " + l.getTenLop() +
+                " Nam hoc " + namHocDAO.layTenNamHoc(idNamHoc) +
+                " Hoc Ky " + hocKyDAO.layTenHocKy(idHocKy);
+
+
+        modelMap.addAttribute("hocky", hocKyDAO.getAllHocKyOfSemester(Integer.parseInt(idNamHoc)));
+        modelMap.addAttribute("monhoc", monHocDAO.getAllMonHoc());
+
+        modelMap.addAttribute("buoi", buoiThuTietDAO.getAllBuoi());
+        modelMap.addAttribute("thu", buoiThuTietDAO.getAllThu());
+        modelMap.addAttribute("tiet", buoiThuTietDAO.getAllTiet());
+
+        modelMap.addAttribute("idhocky", Integer.parseInt(idHocKy));
+        modelMap.addAttribute("classid", classId);
+        modelMap.addAttribute("idnamhoc", idNamHoc);
+        modelMap.addAttribute("title_header", titleHeader);
+
+        modelMap.addAttribute("thoikhoabieu", tkbDAO.layThoiKhoaBieu(classId,idHocKy));
+
+        return  "admin/tkb-detail";
+    }
+    // GET [/admin/tkb-detail] => Hiển thị trang tkb
+    @RequestMapping(value="/tkb-detail", method = RequestMethod.POST)
+    public String editTkbForClass(ModelMap modelMap,
+                                        @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                                        @CookieValue(value = "toast_message", defaultValue = "") String toastMessage,
+                                        @RequestParam(value = "classid", defaultValue = "0") String classId,
+                                        @RequestParam(value = "idnamhoc", defaultValue = "0") String idNamHoc,
+                                        @RequestParam(value = "idhocky", defaultValue = "0") String idHocKy,
+                                        @RequestParam(value = "thu", defaultValue = "0") String thu,
+                                        @RequestParam(value = "tiet", defaultValue = "0") String tiet,
+                                        @RequestParam(value = "buoi", defaultValue = "0") String buoi,
+                                        @RequestParam(value = "subject", defaultValue = "0") String subjectId,
+                                        HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        String redirectUrl = "redirect:/admin/tkb-detail?classid="+classId+"&idnamhoc="+idNamHoc+"&idhocky="+idHocKy;
+        tkbDAO = new TkbDAO();
+        // Kiểm tra giáo viên có bận hay không?
+        boolean isBusy = false;
+        if(isBusy){
+            // hiển thị thoong baos
+            String toast = "error#Teacher/is/busy/in/this/shift!!#Error!";
+            Cookie cookie_toast = new Cookie("toast_message", toast);
+            cookie_toast.setPath("/admin/tkb-detail");
+            response.addCookie(cookie_toast);
+            return redirectUrl;
+        }
+
+        // Kiểm tra tiết đó có môn chưa
+        boolean trongTiet = tkbDAO.kiemTraTietCoTrong(classId,thu,tiet,idHocKy);
+        if(trongTiet){
+            // Tạo Mới
+            tkbDAO.taoTkb(subjectId,classId,tiet,thu,idHocKy);
+        }else{
+            //Sửa
+            tkbDAO.suaTkb(subjectId,classId,tiet,thu,idHocKy);
+        }
+        // Tiết trống
+        if(Integer.parseInt(subjectId) == -1){
+            tkbDAO.xoaTkbTrong();
+        }
+        // hiển thị thoong baos
+        String toast = "success#Update/tkb/successfully!#Success!";
+        Cookie cookie_toast = new Cookie("toast_message", toast);
+        cookie_toast.setPath("/admin/tkb-detail");
+        response.addCookie(cookie_toast);
+        return redirectUrl;
     }
 
 

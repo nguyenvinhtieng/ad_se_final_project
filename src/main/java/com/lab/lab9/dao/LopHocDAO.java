@@ -38,7 +38,6 @@ public class LopHocDAO {
                     resultSet.getString("TENPHONGHOC"),
                     resultSet.getString("TENNAMHOC")
             );
-            System.out.println(l.toString());
             lopHoc.add(l);
         }
         return lopHoc;

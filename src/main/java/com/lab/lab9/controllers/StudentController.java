@@ -4,6 +4,7 @@ package com.lab.lab9.controllers;
 import com.lab.lab9.dao.HocSinhDAO;
 import com.lab.lab9.dao.LoaiThongBaoDAO;
 import com.lab.lab9.dao.ThongBaoDAO;
+import com.lab.lab9.models.HocSinh;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -21,7 +22,7 @@ public class StudentController {
 
     private ThongBaoDAO thongBaoDAO;
     private LoaiThongBaoDAO loaiThongBaoDAO;
-
+    private HocSinhDAO hocSinhDAO;
 
     @RequestMapping(value="/home", method = RequestMethod.GET)
     public String showHomePage(ModelMap modelMap,
@@ -101,4 +102,23 @@ public class StudentController {
 
         return  "student/profile";
     }
+
+    // GET [/student/tkb] => Hiển thị trang thoi khoa bieu
+    @RequestMapping(value="/tkb", method = RequestMethod.GET)
+    public String showTkb(ModelMap modelMap,
+                              @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                              HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        hocSinhDAO = new HocSinhDAO();
+        HocSinh hs = hocSinhDAO.getHocSinhData(usernameCookie);
+
+
+        return  "student/profile";
+    }
+
+    //
 }
