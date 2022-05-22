@@ -19,12 +19,12 @@
                     </div>
                     <!--Body-->
                     <div class="my-5">
-                        <input
-                        type="hidden"
+                        <input type="hidden"
                             class="subject-edit shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             name="subjectid" v-model="form.email" required autofocus />
                         <div class="mb-4">
-                            <label class="subject-teacher-message block text-gray-700 text-sm font-normal mb-2" for="username">
+                            <label class="subject-teacher-message block text-gray-700 text-sm font-normal mb-2"
+                                for="username">
                                 Choose
                             </label>
                             <select
@@ -40,10 +40,9 @@
                     </div>
                     <!--Footer-->
                     <div class="flex justify-end pt-2">
-                        <button
+                        <button type="button"
                             class="focus:outline-none modal-close-edit px-4 bg-gray-400 p-2 rounded-md text-black hover:bg-gray-300">Cancel</button>
-                        <button
-                        type="submit"
+                        <button type="submit"
                             class="focus:outline-none px-4 bg-blue-500 p-2 ml-3 rounded-md text-white hover:bg-blue-400">Save</button>
                     </div>
                 </div>

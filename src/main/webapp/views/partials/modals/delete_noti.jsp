@@ -1,5 +1,5 @@
 <div class="main-modal-delete fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
-        style="background: rgba(0,0,0,.7);">
+    style="background: rgba(0,0,0,.7);">
     <div
         class="border border-teal-500 modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div class="modal-content py-4 text-left px-6">
@@ -21,7 +21,7 @@
             </div>
             <!--Footer-->
             <div class="flex justify-end pt-2">
-                <button
+                <button type="button"
                     class="focus:outline-none modal-close-delete px-4 bg-gray-400 p-2 rounded-md text-black hover:bg-gray-300">Cancel</button>
                 <a href="#"
                     class="btn-delete-noti focus:outline-none px-4 bg-red-500 p-2 ml-3 rounded-md text-white hover:bg-red-400">Delete</a>

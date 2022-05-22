@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home student</title>
+    <title>Home Teacher</title>
     <jsp:include page="../partials/file_and_lib_user.jsp" />
 </head>
 
 <body>
     <div class="main-container">
-        <jsp:include page="../partials/header_student.jsp" />
+        <jsp:include page="../partials/header_teacher.jsp" />
         <main class="home">
             <h2>
-                Student portal
+                Teacher portal
             </h2>
             <div class="home__content">
 
@@ -24,12 +24,12 @@
                         vitae labore ratione inventore tenetur quam dolorum velit!</p>
                 </div>
                 <div class="home__right">
-                    <img src="/images/school.png" alt="">
+                    <img src="./images/school.png" alt="">
                 </div>
             </div>
         </main>
     </div>
-
+    <script src="./js/main.js"></script>
 </body>
 
 </html>

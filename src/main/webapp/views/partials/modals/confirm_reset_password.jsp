@@ -21,7 +21,7 @@
             </div>
             <!--Footer-->
             <div class="flex justify-end pt-2">
-                <button
+                <button type="button"
                     class="focus:outline-none modal-close-reset px-4 bg-gray-400 p-2 rounded-md text-black hover:bg-gray-300">Cancel</button>
                 <a href="#"
                     class="btn-reset focus:outline-none px-4 bg-red-500 p-2 ml-3 rounded-md text-white hover:bg-red-400">Reset</a>

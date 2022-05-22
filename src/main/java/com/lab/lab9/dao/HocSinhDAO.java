@@ -3,6 +3,7 @@ package com.lab.lab9.dao;
 import com.lab.lab9.credentials.Credentials;
 import com.lab.lab9.models.HocKy;
 import com.lab.lab9.models.HocSinh;
+import com.lab.lab9.models.LopHoc;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -70,11 +71,13 @@ public class HocSinhDAO {
         return new HocSinh();
     }
     public boolean checkIdStudent(String maHs) throws SQLException{
-        String sql = "SELECT * FROM HOCSINH WHERE MAHS = '" + maHs + "'";
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM HOCSINH WHERE IDHS = '"+maHs+"'";
         resultSet = stm.executeQuery(sql);
-        int numberRow =  resultSet.getRow();
-        System.out.print("So Dong ----------- " + String.valueOf(numberRow));
-        return numberRow == 0;
+        while (resultSet.next()) {
+            return false;
+        }
+        return true;
     }
 
     public void addStudent(String maHs, String ten, String ngaySinh, String gioiTinh, String queQuan, String danToc, String hoKhau, String sdtPhuHuynh, String linkAvatar) throws SQLException {
@@ -121,4 +124,62 @@ public class HocSinhDAO {
         ps.executeUpdate();
         ps.close();
     }
+
+    public List<HocSinh> layHocSinhCuaLop(int idLop) throws SQLException {
+        List<HocSinh> hocsinh = new ArrayList<>();
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM HOCSINH " +
+                "LEFT JOIN HOCSINH_LOPHOC ON HOCSINH.IDHS = HOCSINH_LOPHOC.IDHS " +
+                "LEFT JOIN LOP ON LOP.IDLOP = HOCSINH_LOPHOC.IDLOP " +
+                "WHERE HOCSINH_LOPHOC.IDLOP = " + idLop;
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            HocSinh hs = new HocSinh(
+                    resultSet.getString("IDHS"),
+                    resultSet.getString("TENHS"),
+                    resultSet.getString("NGAYSINH"),
+                    resultSet.getString("GIOITINH"),
+                    resultSet.getString("QUEQUAN"),
+                    resultSet.getString("DANTOC"),
+                    resultSet.getString("HOKHAU"),
+                    resultSet.getString("SDTPHUHUYNH"),
+                    resultSet.getString("LINKAVATAR"),
+                    resultSet.getString("TRANGTHAI")
+            );
+            hocsinh.add(hs);
+        }
+        resultSet.close();
+        stm.close();
+        return hocsinh;
+    }
+
+    public void themHocsinhVaoLop(String idHocSinh, int idLop) throws SQLException {
+        String sql = "INSERT INTO HOCSINH_LOPHOC VALUES(?,?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, idLop);
+        ps.setString(2, idHocSinh);
+        ps.execute();
+        ps.close();
+    }
+    public void xoaHocSinhKhoiLop(int idLop, String idHocSinh) throws SQLException{
+        String sql = "DELETE FROM HOCSINH_LOPHOC WHERE IDLOP = ? AND IDHS = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, idLop);
+        ps.setString(2, idHocSinh);
+        ps.execute();
+        ps.close();
+    }
+    public boolean kiemTraHocSinhCoHocLopKhacKhong(String idHocSinh, int idNamHoc) throws SQLException{
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM HOCSINH_LOPHOC " +
+                "LEFT JOIN LOP ON HOCSINH_LOPHOC.IDLOP = LOP.IDLOP " +
+                "WHERE LOP.IDNAMHOC = "+idNamHoc+" AND HOCSINH_LOPHOC.IDHS = '"+idHocSinh+"'";
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            return false;
+        }
+        return true;
+    }
+
+
 }

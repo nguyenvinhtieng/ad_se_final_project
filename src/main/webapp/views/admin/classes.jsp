@@ -23,7 +23,7 @@
                         <div class="bg-white p-8 rounded-md w-full">
                             <div class=" flex items-center justify-between pb-2">
                                 <div>
-                                    <h2 class="text-gray-600 font-semibold">Notification</h2>
+                                    <h2 class="text-gray-600 font-semibold">Classes</h2>
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <div class="lg:ml-40 ml-10 space-x-8">
@@ -90,7 +90,7 @@
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                             <span class="px-2 py-1 font-semibold leading-tight rounded-sm
                                                                 <c:choose>
-                                                                    <c:when test="${c.getIdPhongHoc()==0 }">
+                                                                    <c:when test=" ${c.getIdPhongHoc()==0 }">
                                                                 text-red-700 bg-red-100
                                                                 ">
                                                                 NO ROOM

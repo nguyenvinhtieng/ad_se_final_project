@@ -25,7 +25,7 @@
                             </label>
                             <input
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                name="title" v-model="form.email"  required autofocus />
+                                name="title" v-model="form.email" required autofocus />
                         </div>
                         <div class="mb-6">
                             <label class="block text-gray-700 text-sm font-normal mb-2" for="password">
@@ -52,7 +52,7 @@
                     </div>
                     <!--Footer-->
                     <div class="flex justify-end pt-2">
-                        <button
+                        <button type="button"
                             class="focus:outline-none modal-close-create px-4 bg-gray-400 p-2 rounded-md text-black hover:bg-gray-300">Cancel</button>
                         <button
                             class="focus:outline-none px-4 bg-blue-500 p-2 ml-3 rounded-md text-white hover:bg-blue-400">Add</button>

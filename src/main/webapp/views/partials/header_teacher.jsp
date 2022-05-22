@@ -4,16 +4,13 @@
     </div>
     <ul class="header__menu">
         <li class="header__menu-item">
-            <a href="/student/home" class="header__menu-link">Home</a>
+            <a href="/teacher/home" class="header__menu-link">Home</a>
         </li>
         <li class="header__menu-item">
-            <a href="/student/tkb" class="header__menu-link">TKB</a>
+            <a href="/teacher/tkb" class="header__menu-link">TKB</a>
         </li>
         <li class="header__menu-item">
-            <a href="/student/notification" class="header__menu-link">Notify</a>
-        </li>
-        <li class="header__menu-item">
-            <a href="/student/score" class="header__menu-link">Score</a>
+            <a href="/teacher/classes" class="header__menu-link">Class</a>
         </li>
     </ul>
     <div class="header__dropdown">
@@ -26,7 +23,7 @@
         </div>
         <ul class="header__dropdown-content">
             <li class="header__dropdown-item">
-                <a href="/student/profile">Your profile</a>
+                <a href="/teacher/profile">Your profile</a>
             </li>
             <li class="header__dropdown-item">
                 <a class="change__pass-btn" href="#!">Change password</a>
@@ -37,6 +34,7 @@
         </ul>
     </div>
 </header>
+
 <!-- Modal doi mat khau -->
 <div class="overlay" id="overlay"></div>
 <div class="modal" id="modal">

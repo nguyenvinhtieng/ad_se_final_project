@@ -93,4 +93,21 @@ public class NamHocDAO {
 
         return true;
     }
+    public NamHoc layNamHocActive() throws SQLException {
+        List<NamHoc> namhoc = new ArrayList<>();
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM NAMHOC WHERE TRANGTHAI = 'ACTIVE'";
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            NamHoc nh = new NamHoc(
+                    resultSet.getInt("IDNAMHOC"),
+                    resultSet.getString("TENNAMHOC"),
+                    resultSet.getString("NGAYBATDAU"),
+                    resultSet.getString("NGAYKETTHUC"),
+                    resultSet.getString("TRANGTHAI")
+            );
+            return nh;
+        }
+        return null;
+    }
 }

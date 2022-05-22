@@ -117,4 +117,22 @@ public class HocKyDAO {
 
         return true;
     }
+    public HocKy layHocKyActive() throws SQLException {
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM HOCKY, NAMHOC WHERE HOCKY.IDNAMHOC = NAMHOC.IDNAMHOC";
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            HocKy hk = new HocKy(
+                    resultSet.getInt("IDHOCKY"),
+                    resultSet.getString("TENHOCKY"),
+                    resultSet.getString("NGAYBATDAU"),
+                    resultSet.getString("NGAYKETTHUC"),
+                    resultSet.getString("TRANGTHAI"),
+                    resultSet.getInt("IDNAMHOC"),
+                    resultSet.getString("TENNAMHOC")
+            );
+            return hk;
+        }
+        return null;
+    }
 }

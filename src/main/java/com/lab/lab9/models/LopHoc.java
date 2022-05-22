@@ -8,6 +8,17 @@ public class LopHoc {
     private int idNamHoc;
     private String tenPhongHoc;
     private String tenNamHoc;
+    private String tenMonHoc;
+    private int idMonHoc;
+
+    public LopHoc(int idLop, String tenLop, int idNamHoc, String tenNamHoc, String tenMonHoc, int idMonHoc) {
+        this.idLop = idLop;
+        this.tenLop = tenLop;
+        this.idNamHoc = idNamHoc;
+        this.tenNamHoc = tenNamHoc;
+        this.tenMonHoc = tenMonHoc;
+        this.idMonHoc = idMonHoc;
+    }
 
     public LopHoc() {
         this.idLop = 0;
@@ -72,6 +83,14 @@ public class LopHoc {
 
     public String getTenPhongHoc() {
         return tenPhongHoc;
+    }
+
+    public String getTenMonHoc() {
+        return tenMonHoc;
+    }
+
+    public int getIdMonHoc() {
+        return idMonHoc;
     }
 
     @Override

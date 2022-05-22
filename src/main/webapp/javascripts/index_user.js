@@ -53,3 +53,23 @@ overlay.addEventListener("click", function () {
     overlay.classList.remove("is-visible");
     modal.classList.remove("is-visible");
 });
+
+let btnAddStudent = document.querySelector(".btn__show_modal_add_student");
+if (btnAddStudent) {
+    const overlayAdd = document.getElementById("overlay_add");
+    const modalAdd = document.getElementById("modal_add");
+
+    btnAddStudent.addEventListener("click", function () {
+        overlayAdd.classList.add("is-visible");
+        modalAdd.classList.add("is-visible");
+    });
+
+    document.getElementById("close-btn").addEventListener("click", function () {
+        overlayAdd.classList.remove("is-visible");
+        modalAdd.classList.remove("is-visible");
+    });
+    overlayAdd.addEventListener("click", function () {
+        overlayAdd.classList.remove("is-visible");
+        modalAdd.classList.remove("is-visible");
+    });
+}

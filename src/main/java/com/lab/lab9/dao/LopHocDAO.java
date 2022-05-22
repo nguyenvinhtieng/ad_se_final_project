@@ -88,4 +88,68 @@ public class LopHocDAO {
         ps.executeUpdate();
         ps.close();
     }
+
+    public List<LopHoc> layLopChuNhiem(String idGiaoVien) throws SQLException{
+        List<LopHoc> lopHoc = new ArrayList<>();
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM GVCN " +
+                "LEFT JOIN LOP ON GVCN.IDLOP = LOP.IDLOP " +
+                "LEFT JOIN NAMHOC ON NAMHOC.IDNAMHOC = LOP.IDNAMHOC " +
+                "WHERE USERNAMEGVCN = '"+idGiaoVien+"'";
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            LopHoc l = new LopHoc(
+                    resultSet.getInt("IDLOP"),
+                    resultSet.getString("TENLOP"),
+                    resultSet.getInt("KHOI"),
+                    resultSet.getInt("IDPHONGHOC"),
+                    resultSet.getInt("IDNAMHOC"),
+                    resultSet.getString("TENLOP"),
+                    resultSet.getString("TENNAMHOC")
+            );
+            lopHoc.add(l);
+        }
+        return lopHoc;
+    }
+
+    public List<LopHoc> layLopDayMon(String idGiaoVien) throws SQLException{
+        List<LopHoc> lopHoc = new ArrayList<>();
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM GV_MONHOC " +
+                "LEFT JOIN LOP ON GV_MONHOC.IDLOP = LOP.IDLOP " +
+                "LEFT JOIN NAMHOC ON LOP.IDNAMHOC = NAMHOC.IDNAMHOC " +
+                "LEFT JOIN MONHOC ON GV_MONHOC.IDMONHOC = MONHOC.IDMONHOC " +
+                "WHERE GV_MONHOC.IDGV = '"+idGiaoVien+"'";
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            LopHoc l = new LopHoc(
+                    resultSet.getInt("IDLOP"),
+                    resultSet.getString("TENLOP"),
+                    resultSet.getInt("IDNAMHOC"),
+                    resultSet.getString("TENNAMHOC"),
+                    resultSet.getString("TENMONHOC"),
+                    resultSet.getInt("IDMONHOC")
+            );
+            lopHoc.add(l);
+        }
+        return lopHoc;
+    }
+    public LopHoc layLopHocDuaVaoIDHocSinh(String idHocSinh, int idNamHoc) throws SQLException{
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM HOCSINH_LOPHOC " +
+                "LEFT JOIN LOP ON LOP.IDLOP = HOCSINH_LOPHOC.IDLOP " +
+                "WHERE LOP.IDNAMHOC = "+idNamHoc+" AND HOCSINH_LOPHOC.IDHS ='"+idHocSinh+"'";
+        resultSet = stm.executeQuery(sql);
+        while (resultSet.next()) {
+            LopHoc l = new LopHoc(
+                    resultSet.getInt("IDLOP"),
+                    resultSet.getString("TENLOP"),
+                    resultSet.getInt("KHOI"),
+                    resultSet.getInt("IDPHONGHOC"),
+                    resultSet.getInt("IDNAMHOC")
+            );
+            return l;
+        }
+        return new LopHoc();
+    }
 }

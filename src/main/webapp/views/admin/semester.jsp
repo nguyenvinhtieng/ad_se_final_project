@@ -23,7 +23,7 @@
                         <div class="bg-white p-8 rounded-md w-full">
                             <div class=" flex items-center justify-between pb-2">
                                 <div>
-                                    <h2 class="text-gray-600 font-semibold">Notification</h2>
+                                    <h2 class="text-gray-600 font-semibold">Semester</h2>
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <div class="lg:ml-40 ml-10 space-x-8">
@@ -121,7 +121,7 @@
                                                             <span class="px-2 py-1 font-semibold leading-tight rounded-sm
                                                                 <c:choose>
                                                                     <c:when 
-                                                                    test="${hk.getTrangThai()=='ACTIVE' }">
+                                                                    test=" ${hk.getTrangThai()=='ACTIVE' }">
                                                                 text-blue-700 bg-blue-100
                                                                 <br />
                                                                 </c:when>

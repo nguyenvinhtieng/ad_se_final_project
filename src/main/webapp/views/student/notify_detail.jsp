@@ -35,3 +35,6 @@
     </body>
 
     </html>
+    <script>
+        document.querySelectorAll(".header__menu-item")[2].classList.add("active")
+    </script>

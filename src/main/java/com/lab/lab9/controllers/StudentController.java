@@ -1,10 +1,11 @@
 package com.lab.lab9.controllers;
 
 
-import com.lab.lab9.dao.HocSinhDAO;
-import com.lab.lab9.dao.LoaiThongBaoDAO;
-import com.lab.lab9.dao.ThongBaoDAO;
+import com.lab.lab9.dao.*;
+import com.lab.lab9.models.HocKy;
 import com.lab.lab9.models.HocSinh;
+import com.lab.lab9.models.LopHoc;
+import com.lab.lab9.models.NamHoc;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -23,7 +24,17 @@ public class StudentController {
     private ThongBaoDAO thongBaoDAO;
     private LoaiThongBaoDAO loaiThongBaoDAO;
     private HocSinhDAO hocSinhDAO;
-
+    private HocKyDAO hocKyDAO;
+    private NamHocDAO namHocDAO;
+    private TaiKhoanDAO taiKhoanDAO;
+    private PhongHocDAO phongHocDAO;
+    private LopHocDAO lopHocDAO;
+    private GiaoVienDAO giaovienDAO;
+    private GVCNDAO gvcnDAO;
+    private MonHocDAO monHocDAO;
+    private GiaoVienMonHocDAO giaoVienMonHocDAO;
+    private BuoiThuTietDAO buoiThuTietDAO;
+    private TkbDAO tkbDAO;
     @RequestMapping(value="/home", method = RequestMethod.GET)
     public String showHomePage(ModelMap modelMap,
                                @CookieValue(value = "username", defaultValue = "") String usernameCookie
@@ -107,6 +118,7 @@ public class StudentController {
     @RequestMapping(value="/tkb", method = RequestMethod.GET)
     public String showTkb(ModelMap modelMap,
                               @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                              @RequestParam(value = "idhocky" , defaultValue = "0") String idHocKy,
                               HttpServletResponse response
     )  throws SQLException, ClassNotFoundException{
 
@@ -114,11 +126,43 @@ public class StudentController {
             return "redirect:/login";
         }
         hocSinhDAO = new HocSinhDAO();
+        hocKyDAO = new HocKyDAO();
+        namHocDAO = new NamHocDAO();
+        lopHocDAO = new LopHocDAO();
+        monHocDAO = new MonHocDAO();
+        tkbDAO = new TkbDAO();
+        NamHoc namHoc = namHocDAO.layNamHocActive();
+        buoiThuTietDAO = new BuoiThuTietDAO();
         HocSinh hs = hocSinhDAO.getHocSinhData(usernameCookie);
 
+        LopHoc l = lopHocDAO.layLopHocDuaVaoIDHocSinh(usernameCookie,namHoc.getIdNamHoc() );
 
-        return  "student/profile";
+        modelMap.addAttribute("buoi", buoiThuTietDAO.getAllBuoi());
+        modelMap.addAttribute("thu", buoiThuTietDAO.getAllThu());
+        modelMap.addAttribute("tiet", buoiThuTietDAO.getAllTiet());
+        modelMap.addAttribute("monhoc", monHocDAO.getAllMonHoc());
+
+        modelMap.addAttribute("hocky", hocKyDAO.getAllHocKyOfSemester(namHoc.getIdNamHoc()));
+        modelMap.addAttribute("idhocky", Integer.parseInt(idHocKy));
+        modelMap.addAttribute("thoikhoabieu", tkbDAO.layThoiKhoaBieu(String.valueOf(l.getIdLop()),idHocKy));
+        return  "student/tkb";
     }
 
     //
+    // GET [/student/profile] => Hiển thị trang thong tin hoc sinh
+    @RequestMapping(value="/score", method = RequestMethod.GET)
+    public String score(ModelMap modelMap,
+                              @CookieValue(value = "username", defaultValue = "") String usernameCookie,
+                              HttpServletResponse response
+    )  throws SQLException, ClassNotFoundException{
+
+        if(usernameCookie.equals("")){
+            return "redirect:/login";
+        }
+        HocSinhDAO hocSinhDAO = new HocSinhDAO();
+
+        modelMap.addAttribute("student", hocSinhDAO.getHocSinhData(usernameCookie));
+
+        return  "student/score";
+    }
 }

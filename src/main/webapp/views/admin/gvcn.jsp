@@ -23,9 +23,9 @@
                         <div class="bg-white p-8 rounded-md w-full">
                             <div class=" flex items-center justify-between pb-2">
                                 <div>
-                                    <h2 class="text-gray-600 font-semibold">Notification</h2>
+                                    <h2 class="text-gray-600 font-semibold">Head teacher</h2>
                                 </div>
-                                
+
                             </div>
                             <div>
                                 <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -35,7 +35,7 @@
                                                 <tr>
                                                     <th
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                         Class ID
+                                                        Class ID
                                                     </th>
                                                     <th
                                                         class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -78,7 +78,7 @@
                                                                 ${c.getGvcnUsername()}
                                                             </p>
                                                         </td>
-                                                        
+
                                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                             <p data-id="${c.getClassID()}"
                                                                 class="edit inline-block cursor-pointer  text-gray-400 hover:text-gray-100 ml-2">
@@ -103,7 +103,7 @@
         <script>
             const modalEdit = document.querySelector('.main-modal-edit');
             const closeButtonModalEdit = document.querySelectorAll('.modal-close-edit');
-            
+
             initModal([
                 { modal: modalEdit, closeButtons: closeButtonModalEdit }
             ])
@@ -116,7 +116,7 @@
                 })
             })
             const classEdit = document.querySelector(".class-edit")
-            function setDataToModalEdit(item){
+            function setDataToModalEdit(item) {
                 classEdit.value = item.getAttribute("data-id")
             }
         </script>

@@ -42,6 +42,41 @@ public class TkbDAO {
         return tkb;
     }
 
+    public List<Tkb> layThoiKhoaBieuGv(String idGv, String idHocKy) throws SQLException{
+        List<Tkb> tkb = new ArrayList<>();
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM TKB " +
+                "LEFT JOIN LOP ON TKB.IDLOP = LOP.IDLOP " +
+                "LEFT JOIN GV_MONHOC ON GV_MONHOC.IDLOP = LOP.IDLOP " +
+                "LEFT JOIN MONHOC ON MONHOC.IDMONHOC = TKB.IDMONHOC " +
+                "WHERE GV_MONHOC.IDGV = '"+idGv+"' AND TKB.IDHOCKY = "+Integer.parseInt(idHocKy);
+        resultSet = stm.executeQuery(sql);
+        while(resultSet.next()) {
+            Tkb t = new Tkb(
+                    resultSet.getInt("IDMONHOC"),
+                    resultSet.getInt("IDLOP"),
+                    resultSet.getInt("IDTIET"),
+                    resultSet.getInt("IDTHU"),
+                    resultSet.getInt("IDHOCKY"),
+                    resultSet.getString("TENMONHOC"),
+                    resultSet.getString("TENLOP")
+            );
+            boolean isHas = false;
+            for(Tkb tkb1: tkb){
+                if(tkb1.getIdTiet() == t.getIdTiet() && tkb1.getIdThu() == t.getIdThu()){
+                    isHas = true;
+                }
+            }
+            if(!isHas){
+                tkb.add(t);
+            }
+
+        }
+        resultSet.close();
+        stm.close();
+        return tkb;
+    }
+
     public boolean kiemTraGVCoBan(String idLop, String idMon, String idthu, String idTiet, String idBuoi, String idHocKy) throws SQLException{
         List<Tkb> tkb = new ArrayList<>();
         stm = conn.createStatement();

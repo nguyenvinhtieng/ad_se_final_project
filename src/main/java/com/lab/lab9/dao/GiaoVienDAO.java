@@ -123,4 +123,31 @@ public class GiaoVienDAO {
         ps.executeUpdate();
         ps.close();
     }
+
+    public GiaoVien layThongTinGiaoVien(String idGiaoVien) throws SQLException {
+        stm = conn.createStatement();
+        String sql = "SELECT * FROM GIAOVIEN WHERE IDGV = '"+idGiaoVien+"'";
+        resultSet = stm.executeQuery(sql);
+        while(resultSet.next()) {
+            GiaoVien gv = new GiaoVien(
+                    resultSet.getString("IDGV"),
+                    resultSet.getString("TENGV"),
+                    resultSet.getString("CMND"),
+                    resultSet.getString("NGAYSINH"),
+                    resultSet.getString("GIOITINH"),
+                    resultSet.getString("QUEQUAN"),
+                    resultSet.getString("DANTOC"),
+                    resultSet.getString("HOKHAU"),
+                    resultSet.getString("SDT"),
+                    resultSet.getString("EMAIL"),
+                    resultSet.getString("LINKAVATAR"),
+                    resultSet.getString("TRANGTHAI")
+            );
+            return gv;
+        }
+
+        resultSet.close();
+        stm.close();
+        return null;
+    }
 }

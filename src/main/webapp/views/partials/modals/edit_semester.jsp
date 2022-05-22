@@ -74,7 +74,7 @@
                     </div>
                     <!--Footer-->
                     <div class="flex justify-end pt-2">
-                        <button
+                        <button type="button"
                             class="focus:outline-none modal-close-edit px-4 bg-gray-400 p-2 rounded-md text-black hover:bg-gray-300">Cancel</button>
                         <button
                             class="focus:outline-none px-4 bg-blue-500 p-2 ml-3 rounded-md text-white hover:bg-blue-400">Save</button>

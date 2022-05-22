@@ -6,21 +6,22 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Home student</title>
+        <title>Home Teacher</title>
         <jsp:include page="../partials/file_and_lib_user.jsp" />
     </head>
 
     <body>
         <div class="main-container">
-            <jsp:include page="../partials/header_student.jsp" />
+            <jsp:include page="../partials/header_teacher.jsp" />
             <main class="tkb">
                 <form class="tbk__form">
                     <span>Choose Semester</span>
                     <select name="idhocky" class="tkb__select" id="">
                         <option value="">--Choose semester--</option>
+
                         <c:forEach items="${hocky}" var="h">
                             <option value="${h.getIdHocKy()}">
-                                ${h.getTenHocKy()}
+                                ${h.getTenHocKy()} (${h.getTenNamHoc()})
                             </option>
                         </c:forEach>
                     </select>
@@ -48,19 +49,15 @@
                                                             data-tiet="${t.getIdTiet()}" data-buoi="${b.getIdBuoi()}">
                                                             <span>
                                                                 <c:forEach items="${thoikhoabieu}" var="tkb">
-                                                                    <c:forEach items="${monhoc}" var="mh">
-                                                                        <c:choose>
-                                                                            <c:when test="${tkb.getIdMonHoc()== mh.getIdMonHoc() 
-                                                                                            && tkb.getIdTiet() == t.getIdTiet()
+                                                                    <c:choose>
+                                                                        <c:when test="${tkb.getIdTiet() == t.getIdTiet()
                                                                                             && tkb.getIdThu() == th.getIdThu()
                                                                                         }">
-                                                                                ${mh.getTenMonHoc()}
-                                                                            </c:when>
-                                                                            <c:otherwise>
-
-                                                                            </c:otherwise>
-                                                                        </c:choose>
-                                                                    </c:forEach>
+                                                                            ${tkb.getTenMon()} (${tkb.getTenLop()})
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </c:forEach>
                                                             </span>
                                                             <span>
